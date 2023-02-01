@@ -7,6 +7,7 @@
 	</head>
 	<body>
 		<h1>사원추가</h1>
+		<div>${errorMsg}</div>
 		<form method="post" action="${pageContext.request.contextPath}/employee/addEmp">
 			<table border="1">
 				<tr>

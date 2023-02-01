@@ -1,9 +1,9 @@
-package goodee.gdj58.online.mapper;
+package goodee.gdj58.online.mapper.id;
 
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface IdMapper {
-	String selectId(String id);
+	String selectIdCheck(String id);
 	
 }

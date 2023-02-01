@@ -1,5 +1,11 @@
 package goodee.gdj58.online.vo;
 
-public class Teacher {
+import lombok.Data;
 
+@Data
+public class Teacher {
+	private int teacherNo;
+	private String teacherId;
+	private String teacherPw;
+	private String teacherName;
 }
