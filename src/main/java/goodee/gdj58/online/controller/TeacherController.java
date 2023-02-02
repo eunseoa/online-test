@@ -6,17 +6,17 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.mapper.id.IdMapper;
 import goodee.gdj58.online.service.TeacherService;
-import goodee.gdj58.online.vo.Employee;
 import goodee.gdj58.online.vo.Teacher;
+import lombok.extern.slf4j.Slf4j;
 
-
-	
+@Slf4j
 @Controller
 public class TeacherController {
 	@Autowired TeacherService teacherService;
@@ -89,13 +89,49 @@ public class TeacherController {
 	
 	// 강사 리스트 출력
 	@GetMapping("/employee/teacher/teacherList")
-	public String teacherList(HttpSession session
-							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
-							, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
+	public String teacherList(Model model
+							, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
+							, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+							, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
+		// 디버깅
+		log.debug("\u001B[31m" + currentPage + "<-- currentPage");
+		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
+		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
-		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage);
-		session.setAttribute("list", list);
-		session.setAttribute("currentPage", currentPage);
+		// 강사 리스트
+		List<Teacher> list = teacherService.getTeacherList(currentPage, rowPerPage, searchWord);
+		
+		// 강사 데이터 개수
+		int cntTeacher = teacherService.countTeacher(searchWord);
+		log.debug("\u001B[31m" + cntTeacher + "<-- cntTeacher");
+		
+		// 페이징
+		int lastPage = cntTeacher / rowPerPage;
+		if(lastPage % rowPerPage != 0 || lastPage == 0) { // 데이터 개수가 rowPerPage보다 적을때 lastPage가 0으로 나옴
+			lastPage++;
+		}
+		
+		int showPage = 10;
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		log.debug("\u001B[31m" + lastPage + "<-- lastPage");
+		
+		boolean prev = (currentPage == 1 || startPage == 1) ? false : true;
+		boolean next = (currentPage == lastPage || endPage == lastPage) ? false : true;
+		
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
 		
 		return "employee/teacherList";
 	}

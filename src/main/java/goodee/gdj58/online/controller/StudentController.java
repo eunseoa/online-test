@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.mapper.id.IdMapper;
 import goodee.gdj58.online.service.StudentService;
-import goodee.gdj58.online.vo.Employee;
 import goodee.gdj58.online.vo.Student;
+import lombok.extern.slf4j.Slf4j;
 
 
-
+@Slf4j
 @Controller
 public class StudentController {
 	@Autowired StudentService studentService;
@@ -80,10 +80,48 @@ public class StudentController {
 	@GetMapping("/employee/student/studentList")
 	public String studentList(Model model
 							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
-							, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
-		List<Student> list = studentService.getSelectStudentList(currentPage, rowPerPage);
+							, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage
+							, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
+		
+		// 디버깅
+		log.debug("\u001B[31m" + currentPage + "<-- currentPage");
+		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
+		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
+		
+		// 학생 리스트
+		List<Student> list = studentService.getSelectStudentList(currentPage, rowPerPage, searchWord);
+		
+		// 학생 데이터 총 개수
+		int cntStudent = studentService.countStudent(searchWord);
+		
+		// 페이징
+		// 페이징
+		int lastPage = cntStudent / rowPerPage;
+		if(lastPage % rowPerPage != 0 || lastPage == 0) { // 데이터 개수가 rowPerPage보다 적을때 lastPage가 0으로 나옴
+			lastPage++;
+		}
+		
+		int showPage = 10;
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		// 이전 버튼 활성하
+		boolean prev = (currentPage == 1) ? false : true;
+		// 다음 버튼 활성화
+		boolean next = (currentPage == lastPage) ? false : true;
+		
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
 		
 		return "employee/studentList";
 	}

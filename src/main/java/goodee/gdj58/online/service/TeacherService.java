@@ -31,12 +31,22 @@ public class TeacherService {
 		return teacherMapper.insertTeacher(teacher);
 	}
 	
+	// 강사 데이터 총 개수
+	public int countTeacher(String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchWord", searchWord);
+		
+		return teacherMapper.countTeacher(paramMap);
+	}
+	
 	// 강사 리스트
-	public List<Teacher> getTeacherList(int currentPage, int rowPerPage) {
+	public List<Teacher> getTeacherList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage - 1) * rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
 		return teacherMapper.selectTeacherList(paramMap);
 	}
 }
