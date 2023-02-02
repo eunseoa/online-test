@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import goodee.gdj58.online.service.EmployeeService;
 import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.vo.Employee;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
@@ -106,6 +108,11 @@ public class EmployeeController {
 						, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
 						, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) { 
 						// int currentPage = Integer.parseInt(request.getParamenter(""));
+		
+		// 디버깅
+		log.debug("\u001B[31m" + currentPage + "<-- currentPage");
+		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
+		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
 		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
 		// request.setAttribute("list", list);
