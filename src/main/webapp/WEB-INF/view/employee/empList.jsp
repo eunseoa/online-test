@@ -29,6 +29,9 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<form method="get">
+			
+		</form>
 		<div>
 			<c:if test="${currentPage == 1}">
 				<a>처음</a>
