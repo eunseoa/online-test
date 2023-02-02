@@ -31,7 +31,7 @@
 			<button type="submit">이름 검색</button>
 		</form>
 		<div>
-			<!-- 현제 페이지에 따른 처음 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 처음 버튼 활성화 -->
 			<c:if test="${currentPage == 1}">
 				<span>처음</span>
 			</c:if>
@@ -39,7 +39,7 @@
 				<a href="${pageContext.request.contextPath}/employee/teacher/teacherList?currentPage=1&searchWord=${searchWord}">처음</a>
 			</c:if>
 			
-			<!-- 현제 페이지에 따른 이전 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 이전 버튼 활성화 -->
 			<c:if test="${prev == false}">
 				<span>이전</span>	
 			</c:if>
@@ -51,7 +51,7 @@
 				<a href="${pageContext.request.contextPath}/employee/teacher/teacherList?currentPage=${t}&searchWord=${searchWord}">${t}</a>	
 			</c:forEach>
 			
-			<!-- 현제 페이지에 따른 다음 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 다음 버튼 활성화 -->
 			<c:if test="${next == false}">
 				<span>다음</span>	
 			</c:if>
@@ -59,7 +59,7 @@
 				<a href="${pageContext.request.contextPath}/employee/teacher/teacherList?currentPage=${currentPage + 1}&searchWord=${searchWord}">다음</a>			
 			</c:if>
 			
-			<!-- 현제 페이지에 따른 마지막 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 마지막 버튼 활성화 -->
 			<c:if test="${currentPage == lastPage}">
 				<span>마지막</span>
 			</c:if>

@@ -39,7 +39,7 @@
 				<a href="${pageContext.request.contextPath}/employee/student/studentList?currentPage=1&searchWord=${searchWord}">처음</a>
 			</c:if>
 			
-			<!-- 현제 페이지에 따른 이전 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 이전 버튼 활성화 -->
 			<c:if test="${prev == false}">
 				<span>이전</span>	
 			</c:if>
@@ -51,7 +51,7 @@
 				<a href="${pageContext.request.contextPath}/employee/student/studentList?currentPage=${t}&searchWord=${searchWord}">${t}</a>	
 			</c:forEach>
 			
-			<!-- 현제 페이지에 따른 다음 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 다음 버튼 활성화 -->
 			<c:if test="${next == false}">
 				<span>다음</span>	
 			</c:if>
@@ -59,7 +59,7 @@
 				<a href="${pageContext.request.contextPath}/employee/student/studentList?currentPage=${currentPage + 1}&searchWord=${searchWord}">다음</a>			
 			</c:if>
 			
-			<!-- 현제 페이지에 따른 마지막 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 마지막 버튼 활성화 -->
 			<c:if test="${currentPage == lastPage}">
 				<span>마지막</span>
 			</c:if>
