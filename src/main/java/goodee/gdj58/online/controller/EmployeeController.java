@@ -114,11 +114,41 @@ public class EmployeeController {
 		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
 		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
+		// 관리자 리스트
 		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
+		
+		// emp 데이터 개수
+		int empCnt = employeeService.countEmp(searchWord);
+		
+		// 페이징
+		int lastPage = empCnt / rowPerPage; // 마지막 페이지, 페이지 개수
+		if(lastPage % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		int showPage = 10; // 한 페이지에 출력할 버튼 개수
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;  // 시작페이지
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage; // 마지막 버튼 페이지
+		// lastPage가 endPage보다 작을 경우 lastPage로 바꿔줌
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		// 이전 버튼 활성하
+		boolean prev = (currentPage == 1) ? false : true;
+		// 다음 버튼 활성화
+		boolean next = (currentPage == lastPage) ? false : true;
+		
 		// request.setAttribute("list", list);
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
 		return "employee/empList";
 	}
 }

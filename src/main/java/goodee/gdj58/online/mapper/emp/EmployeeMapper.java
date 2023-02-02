@@ -14,6 +14,7 @@ public interface EmployeeMapper {
 	Employee login(Employee employee); // 관리자 로그인
 	int deleteEmployee(int empNo); // 관리자 삭제
 	int insetEmployee(Employee employee); // 관리자 등록
+	int countEmp(Map<String, Object> paramMap); // 관리자 데이터 총 개수
 	// 추상메소드
 	List<Employee> selectEmployeeList(Map<String, Object> paramMap); // 관리자 리스트 출력
 }

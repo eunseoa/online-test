@@ -43,10 +43,15 @@ public class EmployeeService {
 	
 	// 사원 추가
 	public int addEmployee(Employee employee) {
-		// id값이 null일때 사용가능한 id
-		String id = idMapper.selectIdCheck(employee.getEmpId());
-		
 		return employeeMapper.insetEmployee(employee);
+	}
+	
+	// emp 데이터 총 개수
+	public int countEmp(String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchWord", searchWord);
+		
+		return employeeMapper.countEmp(paramMap);
 	}
 	
 	// emp리스트
@@ -56,6 +61,7 @@ public class EmployeeService {
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("searchWord", searchWord);
+		
 		return employeeMapper.selectEmployeeList(paramMap);
 	}
 }

@@ -12,7 +12,6 @@
 		</div>
 		<h1>Employee List</h1>
 		<a href="${pageContext.request.contextPath}/employee/addEmp">사원등록</a>
-		<a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a>
 		<table border="1">
 			<tr>
 				<th>empId</th>
@@ -34,19 +33,38 @@
 			<button type="submit">이름 검색</button>
 		</form>
 		<div>
+			<!-- 현제 페이지에 따른 처음 버튼 활성화 -->
 			<c:if test="${currentPage == 1}">
-				<a>처음</a>
+				<span>처음</span>
 			</c:if>
-			<c:if test="${currnetPage != 1}">
+			<c:if test="${currentPage != 1}">
 				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=1&searchWord=${searchWord}">처음</a>
 			</c:if>
-			<c:if test="${currentPage > 1}">
-				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage - 1}&searchWord=${searchWord}">이전</a>			
+			
+			<!-- 현제 페이지에 따른 이전 버튼 활성화 -->
+			<c:if test="${prev == false}">
+				<span>이전</span>	
 			</c:if>
-			<c:if test="${lastPage > currentPage}">
+			<c:if test="${prev == true}">
+				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage - 1}&searchWord=${searchWord}">이전</a>
+			</c:if>
+			
+			<c:forEach var="e" begin="${startPage}" end="${endPage}" step="1">
+				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${e}&searchWord=${searchWord}">${e}</a>	
+			</c:forEach>
+			
+			<!-- 현제 페이지에 따른 다음 버튼 활성화 -->
+			<c:if test="${next == false}">
+				<span>다음</span>	
+			</c:if>
+			<c:if test="${next == true}">
 				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage + 1}&searchWord=${searchWord}">다음</a>			
 			</c:if>
-			<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage + 1}&searchWord=${searchWord}">다음</a>		
+			
+			<!-- 현제 페이지에 따른 마지막 버튼 활성화 -->
+			<c:if test="${currentPage == lastPage}">
+				<span>마지막</span>
+			</c:if>
 			<c:if test="${currentPage != lastPage}">
 				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${lastPage}&searchWord=${searchWord}">마지막</a>			
 			</c:if>
