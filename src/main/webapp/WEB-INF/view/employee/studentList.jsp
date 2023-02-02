@@ -31,7 +31,7 @@
 			<button type="submit">이름 검색</button>
 		</form>
 		<div>
-			<!-- 현제 페이지에 따른 처음 버튼 활성화 -->
+			<!-- 현재 페이지에 따른 처음 버튼 활성화 -->
 			<c:if test="${currentPage == 1}">
 				<span>처음</span>
 			</c:if>
