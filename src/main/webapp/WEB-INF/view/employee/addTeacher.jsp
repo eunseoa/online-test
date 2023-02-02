@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h3>선생님 등록</h3>
-		<form method="post" action="${pageContext.request.contextPath}/teacher/addTeacher">
+		<form method="post" action="${pageContext.request.contextPath}/employee/teacher/addTeacher">
 			${errorMsg}
 			<table border="1">
 				<tr>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,15 +23,23 @@ public class StudentController {
 	@Autowired StudentService studentService;
 	@Autowired IdMapper idMapper;
 	
-	// 학생 삭제
-	@GetMapping("/student/removeStudent")
-	public String removeStudent(HttpSession session, @RequestParam(value="studentNo") int studentNo) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
+	// 학생 로그인
+	@GetMapping("/loginStudent")
+	public String login() {
+		return "student/loginStudent";
+	}
+	
+	@PostMapping("/loginStudent")
+	public String login(HttpSession session, Student student) {
+		Student resultStudent = studentService.login(student);
+		session.setAttribute("loginStudent", resultStudent);
 		
+		return "redirect:/loginStudent";
+	}
+	
+	// 학생 삭제
+	@GetMapping("/employee/student/removeStudent")
+	public String removeStudent(@RequestParam(value="studentNo") int studentNo) {
 		int row = studentService.deleteStudent(studentNo);
 		if(row == 0) {
 			System.out.println("학생 삭제 실패");
@@ -38,29 +47,17 @@ public class StudentController {
 			System.out.println("학생 삭제 성공");
 		}
 		
-		return "redirect:/student/studentList";
+		return "redirect:/employee/student/studentList";
 	}
 	
 	// 학생 등록
-	@GetMapping("/student/addStudent")
-	public String addStudent(HttpSession session) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
-		return "student/addStudent";
+	@GetMapping("/employee/student/addStudent")
+	public String addStudent() {
+		return "employee/addStudent";
 	}
 	
-	@PostMapping("/student/addStudent")
+	@PostMapping("/employee/student/addStudent")
 	public String addStudent(HttpSession session, Student student) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
 		// 중복아이디 검사
 		String idCheck = idMapper.selectIdCheck(student.getStudentId());
 		if(idCheck != null) {
@@ -76,24 +73,18 @@ public class StudentController {
 			System.out.println("학생 등록 성공");
 		}
 		
-		return "redirect:/student/studentList";
+		return "redirect:/employee/student/studentList";
 	}
 	
 	// 학생 리스트
-	@GetMapping("/student/studentList")
-	public String studentList(HttpSession session
+	@GetMapping("/employee/student/studentList")
+	public String studentList(Model model
 							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 							, @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
 		List<Student> list = studentService.getSelectStudentList(currentPage, rowPerPage);
-		session.setAttribute("list", list);
-		session.setAttribute("currentPage", currentPage);
+		model.addAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
 		
-		return "student/studentList";
+		return "employee/studentList";
 	}
 }

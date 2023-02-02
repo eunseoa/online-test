@@ -15,6 +15,12 @@ import goodee.gdj58.online.vo.Student;
 @Transactional
 public class StudentService {
 	@Autowired StudentMapper studentMapper;
+	
+	// 학생 로그인
+	public Student login(Student student) {
+		return studentMapper.login(student);
+	}
+	
 	// 학생 삭제
 	public int deleteStudent(int studentNo) {
 		return studentMapper.deleteStudent(studentNo);

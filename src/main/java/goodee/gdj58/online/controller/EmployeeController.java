@@ -24,12 +24,6 @@ public class EmployeeController {
 	// 수정 form으로 감
 	@GetMapping("/employee/modifyEmpPw")
 	public String modifyEmpPw(HttpSession session) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
 		return "employee/modifyEmpPw";
 	}
 	// 수정 Action
@@ -38,34 +32,21 @@ public class EmployeeController {
 							// required = true는 null이 들어올 수 없게함
 							, @RequestParam(value="oldPw") String oldPw
 							, @RequestParam(value="newPw") String newPw) {
-		// 비로그인시 로그인폼으로
 		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
 		employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
 		
 		return "redirect:/employee/empList";
 	}
 	
 	// 로그인
-	@GetMapping("/employee/loginEmp")
-	public String loginEmp(HttpSession session) {
-		// 이미 로그인되어있으면 empList로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp != null) {
-			return "redirect:/employee/empList";
-		}
+	@GetMapping("/loginEmp")
+	public String loginEmp() {
 		return "employee/loginEmp";
 	}
 	
-	@PostMapping("/employee/loginEmp")
+	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Employee emp) {
 		Employee resultEmp = employeeService.login(emp);
-		if(resultEmp == null) { // 로그인 실패
-			return "redirect:/employee/loginEmp";
-		}
 		session.setAttribute("loginEmp", resultEmp);
 		return "redirect:/employee/empList";
 	}
@@ -85,12 +66,6 @@ public class EmployeeController {
 	// 삭제
 	@GetMapping("/employee/removeEmp")
 	public String removeEmp(HttpSession session, @RequestParam("empNo") int empNo) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
 		int row = employeeService.removeEmployee(empNo);
 		if(row == 1) {
 			System.out.println("삭제 성공");
@@ -102,24 +77,12 @@ public class EmployeeController {
 	
 	// 등록
 	@GetMapping("/employee/addEmp")
-	public String addEmp(HttpSession session) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
+	public String addEmp() {
 		return "employee/addEmp"; // forword
 	}
 	
 	@PostMapping("/employee/addEmp")
-	public String addEmp(HttpSession session, Model model, Employee employee) {
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
+	public String addEmp(Model model, Employee employee) {
 		String idCehck = idService.getIdCheck(employee.getEmpId());
 		if(idCehck != null) {
 			model.addAttribute("errorMsg", "중복된 ID");
@@ -138,21 +101,17 @@ public class EmployeeController {
 	
 	// 리스트
 	@GetMapping("/employee/empList")
-	public String empList(HttpSession session
-						, Model model
+	public String empList(Model model
 						, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
-						, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage) { 
+						, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+						, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) { 
 						// int currentPage = Integer.parseInt(request.getParamenter(""));
-		// 비로그인시 로그인폼으로
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
 		
-		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage);
+		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
 		// request.setAttribute("list", list);
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
 		return "employee/empList";
 	}
 }
