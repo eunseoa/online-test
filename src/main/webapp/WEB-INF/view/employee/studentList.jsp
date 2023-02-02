@@ -10,7 +10,7 @@
 		<div>
 			<c:import url="/WEB-INF/view/employee/inc/empMenu.jsp"></c:import>
 		</div>
-		<h3>Teacher List</h3>
+		<h3>Student List</h3>
 		<a href="${pageContext.request.contextPath}/employee/student/addStudent">학생등록</a>
 		<table border="1">
 			<tr>
@@ -22,7 +22,7 @@
 				<tr>
 					<td>${s.studentId}</td>
 					<td>${s.studentName}</td>
-					<td><a href="${pageContext.request.contextPath}/employee/student/studentList?studentNo=${s.studentNo}">삭제</a></td>
+					<td><a href="${pageContext.request.contextPath}/employee/student/removeStudent?studentNo=${s.studentNo}">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</table>

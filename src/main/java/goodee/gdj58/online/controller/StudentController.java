@@ -62,7 +62,7 @@ public class StudentController {
 		String idCheck = idMapper.selectIdCheck(student.getStudentId());
 		if(idCheck != null) {
 			session.setAttribute("errorMsg", "중복된 ID");
-			return "teacher/addTeacher";
+			return "student/addStudent";
 		}
 		
 		int row = studentService.insertStudent(student);
@@ -97,7 +97,7 @@ public class StudentController {
 		// 페이징
 		// 페이징
 		int lastPage = cntStudent / rowPerPage;
-		if(lastPage % rowPerPage != 0 || lastPage == 0) { // 데이터 개수가 rowPerPage보다 적을때 lastPage가 0으로 나옴
+		if(cntStudent % rowPerPage != 0) {
 			lastPage++;
 		}
 		

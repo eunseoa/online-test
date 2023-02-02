@@ -107,7 +107,7 @@ public class TeacherController {
 		
 		// 페이징
 		int lastPage = cntTeacher / rowPerPage;
-		if(lastPage % rowPerPage != 0 || lastPage == 0) { // 데이터 개수가 rowPerPage보다 적을때 lastPage가 0으로 나옴
+		if(cntTeacher % rowPerPage != 0) {
 			lastPage++;
 		}
 		

@@ -122,7 +122,7 @@ public class EmployeeController {
 		
 		// 페이징
 		int lastPage = empCnt / rowPerPage; // 마지막 페이지, 페이지 개수
-		if(lastPage % rowPerPage != 0 || lastPage == 0) { // 데이터 개수가 rowPerPage보다 적을때 lastPage가 0으로 나옴
+		if(empCnt % rowPerPage != 0) {
 			lastPage++;
 		}
 		
