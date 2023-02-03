@@ -29,6 +29,9 @@
 		<c:if test="${loginStudent != null}">
 			${loginStudent.studentName}님, 반값습니다
 			<a href="${pageContext.request.contextPath}/student/logout">로그아웃</a>
+			<div>
+				<a href="${pageContext.request.contextPath}/student/modifyStudentPw">비밀번호 수정</a>
+			</div>
 		</c:if>
 	</body>
 </html>

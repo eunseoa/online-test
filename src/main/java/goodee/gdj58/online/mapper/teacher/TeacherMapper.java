@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Teacher;
 
 @Mapper
 public interface TeacherMapper {
+	int updateTeacherPw(Map<String, Object> paramMap); // 강사 비밀번호 수정
 	Teacher login(Teacher teacher); // 강사 로그인
 	int deleteTeacher(int teacherNo); // 강사 삭제
 	int insertTeacher(Teacher teacher); // 강사 등록

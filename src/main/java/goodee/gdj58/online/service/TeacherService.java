@@ -16,6 +16,16 @@ import goodee.gdj58.online.vo.Teacher;
 public class TeacherService {
 	@Autowired TeacherMapper teacherMapper;
 	
+	// 강사 비밀번호 수정
+	public int updateTeacher(int teacherNo, String oldPw, String newPw) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("teacherNo", teacherNo);
+		paramMap.put("oldPw", oldPw);
+		paramMap.put("newPw", newPw);
+		
+		return teacherMapper.updateTeacherPw(paramMap);
+	}
+	
 	// 강사 로그인
 	public Teacher login(Teacher teacher) {
 		return teacherMapper.login(teacher);

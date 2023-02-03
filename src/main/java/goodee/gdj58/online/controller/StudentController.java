@@ -16,12 +16,31 @@ import goodee.gdj58.online.service.StudentService;
 import goodee.gdj58.online.vo.Student;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Controller
 public class StudentController {
 	@Autowired StudentService studentService;
 	@Autowired IdMapper idMapper;
+	/*
+		학생
+	 */
+	
+	// 학생 비밀번호 수정
+	// 수정 form으로 
+	@GetMapping("/student/modifyStudentPw")
+	public String modifyStudent() {
+		return "student/modifyStudentPw";
+	}
+	
+	@PostMapping("/student/modifyStudentPw")
+	public String modifyStudent(HttpSession session
+							, @RequestParam(value="oldPw") String oldPw
+							, @RequestParam(value="newPw") String newPw) {
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		studentService.updateStudentPw(loginStudent.getStudentNo(), oldPw, newPw);
+		
+		return "redirect:/loginStudent";
+	}
 	
 	// 학생 로그인
 	@GetMapping("/loginStudent")
@@ -36,6 +55,18 @@ public class StudentController {
 		
 		return "redirect:/loginStudent";
 	}
+	
+	// 로그아웃
+	@GetMapping("/student/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:loginStudent";
+	}
+	
+	/*
+		관리자
+	 */	
 	
 	// 학생 삭제
 	@GetMapping("/employee/student/removeStudent")

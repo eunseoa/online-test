@@ -22,6 +22,27 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired private IdMapper idMapper;
 	
+	/*
+		강사
+	 */
+	
+	// 강사 비밀번호 수정
+	// 수정 form으로 
+	@GetMapping("/teacher/removeTeacher")
+	public String modifyTeacher() {
+		return "teacher/modifyTeacherPw";
+	}
+	
+	@PostMapping("/teacher/removeTeacher")
+	public String modifyTeacher(HttpSession session
+							, @RequestParam(value="newPw") String newPw
+							, @RequestParam(value="oldPw") String oldPw) {
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		teacherService.updateTeacher(loginTeacher.getTeacherNo(), oldPw, newPw);
+		
+		return "redirect:/loginTeacher";
+	}
+
 	// 강사 로그인
 	@GetMapping("/loginTeacher")
 	public String login() {
@@ -36,17 +57,17 @@ public class TeacherController {
 		return "redirect:/loginTeacher";
 	}
 	
-	// 강사 비밀번호 수정
-	@GetMapping("/teacher/removeTeacher")
-	public String modifyTeacher(HttpSession session) {
-		// 비로그인시 로그인폼으로
-		Teacher teacher = (Teacher)session.getAttribute("loginTeacher");
-		if(teacher == null) {
-			return "redirect:/teacher/loginTeacher";
-		}
+	// 로그아웃
+	@GetMapping("/teacher/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
 		
-		return "teacher/modifyTeacherPw";
-	}
+		return "redirect:/loginTeacher";
+		}
+	
+	/*
+		관리자
+	 */
 	
 	// 강사 삭제
 	@GetMapping("/employee/teacher/removeTeacher")

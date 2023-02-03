@@ -58,7 +58,7 @@ public class EmployeeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		
-		return "redirect:/employee/loginEmp";
+		return "redirect:/loginEmp";
 	}
 	
 	/*

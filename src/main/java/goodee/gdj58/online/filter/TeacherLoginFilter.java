@@ -14,22 +14,21 @@ import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j // log객체를 주입해줌 \ static Log log = new Log();
-@WebFilter("/employee/*") // /employee로 시작하는 모든 것을 가로챔
-public class EmpLoginFilter implements Filter {
+@Slf4j
+@WebFilter("/teacher/*")
+public class TeacherLoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		// 색상을 지정하는 문자열 \u001B[31m
-		log.debug("\u001B[31m" + "EmpLoginFilter");
+		log.debug("TeacherLoginFilter");
 		
 		// 웹브라우저 요청 확인
 		if(request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			HttpSession session = req.getSession();
-			if(session.getAttribute("loginEmp") == null) {
-				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/loginEmp");
+			if(session.getAttribute("loginTeacher") == null) {
+				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "loginTeacher");
 				return;
 			}
 		} else {
@@ -42,5 +41,5 @@ public class EmpLoginFilter implements Filter {
 		// controller 실행 후
 		
 	}
-	
+
 }
