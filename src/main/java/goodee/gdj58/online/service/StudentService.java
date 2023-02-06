@@ -45,7 +45,7 @@ public class StudentService {
 	public int countStudent(String searchWord) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("searchWord", searchWord);
-		return studentMapper.countStudent(paramMap);
+		return studentMapper.countStudent(searchWord);
 	}
 	
 	// 학생 리스트

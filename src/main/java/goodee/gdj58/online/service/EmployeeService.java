@@ -19,7 +19,6 @@ public class EmployeeService {
 	// DI new EmployeeMapper()
 	// EmployeeMapper에 들어갈 수 있는 객체를 찾고 강제로 주입
 	@Autowired  private EmployeeMapper employeeMapper;
-	@Autowired private IdMapper idMapper;
 	
 	// 비밀번호 수정
 	public int updateEmployeePw(int empNo, String oldPw, String newPw) {
@@ -48,10 +47,7 @@ public class EmployeeService {
 	
 	// emp 데이터 총 개수
 	public int countEmp(String searchWord) {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("searchWord", searchWord);
-		
-		return employeeMapper.countEmp(paramMap);
+		return employeeMapper.countEmp(searchWord);
 	}
 	
 	// emp리스트

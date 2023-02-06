@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodee.gdj58.online.mapper.test.TestMapper">
+
+	<!-- 시험 등록 -->
+	<insert id="insertTest" parameterType="goodee.gdj58.online.vo.Test" useGeneratedKeys="true" keyProperty="testNo">
+		INSERT INTO test(
+			test_title
+			, createdate
+		) VALUES (
+			#{testTitle}
+			, CURDATE()
+		)
+	</insert>
+
+	<!-- 관리자 데이터 총 개수 -->
+	<select id="countTest" resultType="int" parameterType="string">
+		SELECT COUNT(*) FROM test
+		<if test="searchWord != null || searchWord != ''">
+			<where>
+				test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</where>
+		</if>
+	</select>
+	
+	<!-- 강사용 시험 리스트 -->
+	<select id="selectTestListByTeacher" resultType="goodee.gdj58.online.vo.Test" parameterType="map">
+		SELECT
+			test_no testNo
+			, test_title testTitle
+			, createdate
+		FROM test
+		<if test="searchWord != null || searchWord != ''">
+			<where>
+				test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</where>
+		</if>
+		ORDER BY createdate DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+</mapper>

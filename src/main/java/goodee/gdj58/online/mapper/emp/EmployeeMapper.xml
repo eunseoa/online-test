@@ -38,7 +38,7 @@
 	</insert>
 	
 	<!-- 관리자 데이터 총 개수 -->
-	<select id="countEmp" resultType="int" parameterType="map">
+	<select id="countEmp" resultType="int" parameterType="string">
 		SELECT COUNT(*) FROM employee
 		<where>
 			<if test="searchWord != null || searchWord != ''">

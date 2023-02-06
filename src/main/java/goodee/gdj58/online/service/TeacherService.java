@@ -43,10 +43,7 @@ public class TeacherService {
 	
 	// 강사 데이터 총 개수
 	public int countTeacher(String searchWord) {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("searchWord", searchWord);
-		
-		return teacherMapper.countTeacher(paramMap);
+		return teacherMapper.countTeacher(searchWord);
 	}
 	
 	// 강사 리스트

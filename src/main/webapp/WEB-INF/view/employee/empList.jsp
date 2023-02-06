@@ -46,7 +46,7 @@
 				<span>이전</span>	
 			</c:if>
 			<c:if test="${prev == true}">
-				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage - 1}&searchWord=${searchWord}">이전</a>
+				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${startPage - 1}&searchWord=${searchWord}">이전</a>
 			</c:if>
 			
 			<c:forEach var="e" begin="${startPage}" end="${endPage}" step="1">
@@ -58,7 +58,7 @@
 				<span>다음</span>	
 			</c:if>
 			<c:if test="${next == true}">
-				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage + 1}&searchWord=${searchWord}">다음</a>			
+				<a href="${pageContext.request.contextPath}/employee/empList?currentPage=${endPage + 1}&searchWord=${searchWord}">다음</a>			
 			</c:if>
 			
 			<!-- 현재 페이지에 따른 마지막 버튼 활성화 -->

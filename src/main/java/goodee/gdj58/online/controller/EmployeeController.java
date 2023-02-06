@@ -101,7 +101,7 @@ public class EmployeeController {
 		return "redirect:/employee/empList"; //sendRedirect, CM -> C
 	}
 	
-	// 리스트
+	// 관리자 리스트
 	@GetMapping("/employee/empList")
 	public String empList(Model model
 						, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
