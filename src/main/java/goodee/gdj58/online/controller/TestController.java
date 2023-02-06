@@ -1,7 +1,6 @@
 package goodee.gdj58.online.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,10 @@ public class TestController {
 	
 	// 시험 등록
 	@PostMapping("/teacher/addTest")
-	public String insertTest(Test test, Question question, Example example) {
+	public String insertTest(Test test, Question question
+						, @RequestParam(value="exampleIdx") int[] exampleIdx
+						, @RequestParam(value="exampleTitle") String[] exampleTitle
+						, @RequestParam(value="answer") String[] answer) {
 		
 		int testNo = testService.insertTest(test);
 		log.debug("\u001B[31m" + "testNo : " + testNo);
@@ -41,7 +43,16 @@ public class TestController {
 		if(testNo != 0) {
 			int questionNo = questionService.insertQuestion(testNo, question);
 			if(questionNo != 0) {
-				exampleService.insertExample(questionNo, example);
+				Example[] example = new Example[4];
+				for(int i = 0; i<example.length; i++) {
+					example[i] = new Example();
+					example[i].setQuestionNo(questionNo);
+					example[i].setExampleIdx(exampleIdx[i]);
+					example[i].setExampleTitle(exampleTitle[i]);
+					example[i].setAnswer(answer[i]);
+					
+					exampleService.insertExample(questionNo, example[i]);
+				}
 			}
 			
 		}

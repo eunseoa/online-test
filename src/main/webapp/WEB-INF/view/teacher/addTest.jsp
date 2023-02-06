@@ -27,9 +27,26 @@
 				<tr>
 					<td>보기</td>
 					<td>
-						번호 : <input type="text" name="exampleIdx">
-						보기 : <input type="text" name="exampleTitle">
-						정답 여부 : <input type="text" name="answer">
+						<div>
+							번호 : <input type="text" name="exampleIdx">
+							보기 : <input type="text" name="exampleTitle">
+							정답 여부 : <input type="text" name="answer">
+						</div>
+						<div>
+							번호 : <input type="text" name="exampleIdx">
+							보기 : <input type="text" name="exampleTitle">
+							정답 여부 : <input type="text" name="answer">
+						</div>
+						<div>
+							번호 : <input type="text" name="exampleIdx">
+							보기 : <input type="text" name="exampleTitle">
+							정답 여부 : <input type="text" name="answer">
+						</div>
+						<div>
+							번호 : <input type="text" name="exampleIdx">
+							보기 : <input type="text" name="exampleTitle">
+							정답 여부 : <input type="text" name="answer">
+						</div>
 					</td>
 				</tr>
 			</table>
