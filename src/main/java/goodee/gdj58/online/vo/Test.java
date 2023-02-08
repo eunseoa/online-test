@@ -6,5 +6,6 @@ import lombok.Data;
 public class Test {
 	private int testNo;
 	private String testTitle;
+	private int questionCount;
 	private String createdate;
 }

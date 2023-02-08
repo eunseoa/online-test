@@ -1,6 +1,7 @@
 package goodee.gdj58.online.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class QuestionService {
 		paramMap.put("testNo", testNo);
 		paramMap.put("questionIdx", question.getQuestionIdx());
 		paramMap.put("questionTitle", question.getQuestionTitle());
+		paramMap.put("questionScore", question.getQuestionScore());
 		questionMapper.insertQuestion(paramMap);
 		
 		log.debug("\u001B[31m" + "questionNo : " + paramMap.get("questionNo"));

@@ -7,10 +7,12 @@
 			test_no
 			, question_idx
 			, question_title
+			, question_score
 		) VALUES (
 			#{testNo}
 			, #{questionIdx}
 			, #{questionTitle}
+			, #{questionScore}
 		)
 	</insert>
 </mapper>

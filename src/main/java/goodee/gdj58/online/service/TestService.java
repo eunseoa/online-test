@@ -18,22 +18,29 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 시험지 수정
+	public int updateTest(Test test) {
+		return testMapper.updateTest(test);
+	}
+	
+	// 시험지 상세 보기
+	public List<Map<String, Object>> testOne(int testNo) {
+		return testMapper.testOne(testNo);
+	}
+	
+	// 시험 제목만 출력
+	public Test selectTestTitle(int testNo) {
+		return testMapper.selectTestTitle(testNo);
+	}
+	
 	// 시험 등록
 	public int insertTest(Test test) {
-		testMapper.insertTest(test);
-		
-		log.debug("\u001B[31m" + "Insert testNo : " + test.getTestNo());
-		
-		return test.getTestNo();
+		return testMapper.insertTest(test);
 	}
 	
 	// 시험 데이터 총 개수
 	public int countTest(String searchWord) {
 		return testMapper.countTest(searchWord);
-	}
-	
-	public List<Test> testList(int testNo) {
-		return testMapper.selectTestOne(testNo);
 	}
 	
 	// 강사용 시험 리스트
@@ -44,6 +51,6 @@ public class TestService {
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("searchWord", searchWord);
 		
-		return testMapper.selectTestListByTeacher(paramMap);
+		return testMapper.selectTestHaveQuestionList(paramMap);
 	}
 }

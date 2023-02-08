@@ -8,4 +8,5 @@ public class Question {
 	private int testNo;
 	private int questionIdx;
 	private String questionTitle;
+	private int questionScore;
 }

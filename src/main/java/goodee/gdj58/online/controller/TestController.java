@@ -1,7 +1,9 @@
 package goodee.gdj58.online.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,24 +26,64 @@ public class TestController {
 	@Autowired QuestionService questionService;
 	@Autowired ExampleService exampleService;
 	
-	// 시험 등록
-	@GetMapping("/teacher/addTest")
-	public String insertTest() {
-		return "teacher/addTest";
+	// 시험 정보 수정
+	@PostMapping("/teacher/test/modifyTestTitle")
+	public String updateTest(Test test) {
+		
+		testService.updateTest(test);
+		
+		return "redirect:/teacher/test/testOne?testNo=" + test.getTestNo();
 	}
 	
-	// 시험 등록
-	@PostMapping("/teacher/addTest")
-	public String insertTest(Test test, Question question
-						, @RequestParam(value="exampleIdx") int[] exampleIdx
-						, @RequestParam(value="exampleTitle") String[] exampleTitle
-						, @RequestParam(value="answer") String[] answer) {
+	// 시험 문제 전체 보기
+	@GetMapping("/teacher/test/testOne")
+	public String testOneByTeacher(Model model, @RequestParam(value="testNo") int testNo) {
 		
-		int testNo = testService.insertTest(test);
-		log.debug("\u001B[31m" + "testNo : " + testNo);
+		// 시험 제목만 출력
+		Test testTitle = testService.selectTestTitle(testNo);
 		
-		if(testNo != 0) {
-			int questionNo = questionService.insertQuestion(testNo, question);
+		// 시험 문제+보기 출력
+		List<Map<String, Object>> testOne = testService.testOne(testNo);
+		
+		model.addAttribute("testNo", testNo);
+		model.addAttribute("testTitle", testTitle);
+		model.addAttribute("testOne", testOne);
+		
+		return "teacher/test/testOne";
+	}
+	
+	@GetMapping("/teacher/test/addQuestion")
+	public String insertQuestion(Model model, @RequestParam(value="testNo") int testNo) {
+		// 시험 제목만 출력
+		Test testTitle = testService.selectTestTitle(testNo);
+		
+		model.addAttribute("testNo", testNo);
+		model.addAttribute("testTitle", testTitle);
+		
+		return "teacher/test/addQuestion";
+	}
+	
+	@PostMapping("/teacher/test/addQuestion")
+	public String insertQuestion(@RequestParam(value="testNo") int testNo
+							, @RequestParam(value="questionCount") int questionCount
+							, @RequestParam(value="questionIdx") int[] questionIdx
+							, @RequestParam(value="questionTitle") String[] questionTitle
+							, @RequestParam(value="questionScore") int questionScore
+							, @RequestParam(value="exampleIdx") int[] exampleIdx
+							, @RequestParam(value="exampleTitle") String[] exampleTitle
+							, @RequestParam(value="answer") int answer) {
+		
+		Question[] question = new Question[questionCount];
+		for(int j = 0; j<question.length; j++) {
+			question[j] = new Question();
+			question[j].setQuestionIdx(questionIdx[j]);
+			question[j].setQuestionTitle(questionTitle[j]);
+			question[j].setQuestionScore(questionScore);
+			
+			int questionNo = questionService.insertQuestion(testNo, question[j]);
+			
+			log.debug("\u001B[31m" + questionNo + "<-- questionNo");
+			
 			if(questionNo != 0) {
 				Example[] example = new Example[4];
 				for(int i = 0; i<example.length; i++) {
@@ -49,31 +91,35 @@ public class TestController {
 					example[i].setQuestionNo(questionNo);
 					example[i].setExampleIdx(exampleIdx[i]);
 					example[i].setExampleTitle(exampleTitle[i]);
-					example[i].setAnswer(answer[i]);
+					example[i].setAnswer("오답");
+					if(answer == i+1) {
+						example[i].setAnswer("정답");
+					}
 					
 					exampleService.insertExample(questionNo, example[i]);
 				}
 			}
-			
 		}
-		return "redirect:/teacher/testList";
+		return "redirect:/teacher/test/testList";
 	}
 	
-	// 시험 문제 전체 보기
-	@GetMapping("/teacher/testOne")
-	public String testOneByTeacher(Model model, @RequestParam(value="testNo") int testNo) {
+	// 시험 등록
+	@GetMapping("/teacher/test/addTest")
+	public String insertTest() {
+		return "teacher/test/addTest";
+	}
+	
+	// 시험 등록
+	@PostMapping("/teacher/test/addTest")
+	public String insertTest(Test test, Question question) {
 		
-		log.debug("\u001B[31m" + testNo + "<-- testNo");
+		testService.insertTest(test);
 		
-		List<Test> list = testService.testList(testNo);
-		
-		model.addAttribute("list", list);
-		
-		return "teacher/testOne";
+		return "redirect:/teacher/test/testList";
 	}
 
-	// 강사용 시험 리스트
-	@GetMapping("/teacher/testList")
+	// 강사용 : 문제 생성된 시험 리스트
+	@GetMapping("/teacher/test/testList")
 	public String testListByTeacher(Model model
 								, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 								, @RequestParam(value="rowPerpage", defaultValue = "10") int rowPerPage
@@ -117,6 +163,6 @@ public class TestController {
 		model.addAttribute("prev", prev);
 		model.addAttribute("next", next);
 		
-		return "teacher/testList";
+		return "teacher/test/testList";
 	}
 }

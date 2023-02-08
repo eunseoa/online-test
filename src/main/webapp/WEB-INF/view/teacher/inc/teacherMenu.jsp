@@ -2,7 +2,7 @@
 <div>
 	<a href="${pageContext.request.contextPath}/teacher/modifyTeacherPw">비밀번호 수정</a>
 	
-	<a href="${pageContext.request.contextPath}/teacher/testList">시험 관리</a>
+	<a href="${pageContext.request.contextPath}/teacher/test/testList">시험 관리</a>
 
 	<a href="${pageContext.request.contextPath}/teacher/logout">로그아웃</a>
 </div>

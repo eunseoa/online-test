@@ -9,8 +9,11 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
-	int insertTest(Test test); // 시험 등록
+	int updateTest(Test test); // 시험 수정
+	List<Map<String, Object>> testOne(int testNo); // 시험지 상세 보기
+	int insertTest(Test test); // 시험 제목 등록
 	int countTest(String searchWord); // 시험 데이터 총 개수
 	List<Test> selectTestOne(int testNo); // 시험 문제 전체 보기
-	List<Test> selectTestListByTeacher(Map<String, Object> map); // 강사용 시험 리스트
+	Test selectTestTitle(int testNo); // 시험 제목만 출력
+	List<Test> selectTestHaveQuestionList(Map<String, Object> map); // 강사용 : 질문이 생성된 시험 리스트
 }
