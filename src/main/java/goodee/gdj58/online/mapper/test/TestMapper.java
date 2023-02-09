@@ -15,5 +15,6 @@ public interface TestMapper {
 	int countTest(String searchWord); // 시험 데이터 총 개수
 	List<Test> selectTestOne(int testNo); // 시험 문제 전체 보기
 	Test selectTestTitle(int testNo); // 시험 제목만 출력
+	List<Test> selectTestNotQuestionList(); // 강사용 : 질문이 생성되지 않은 시험 리스트
 	List<Test> selectTestHaveQuestionList(Map<String, Object> map); // 강사용 : 질문이 생성된 시험 리스트
 }

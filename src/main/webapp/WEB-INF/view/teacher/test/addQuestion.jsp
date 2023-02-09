@@ -8,12 +8,6 @@
 	</head>
 	<body>
 		<h3>${testTitle.testTitle}</h3>
-		<form method="post" action="${pageContext.request.contextPath}/teacher/test/modifyTestTitle">
-			<input type="text" name="testNo" value="${testTitle.testNo}">
-			<input type="text" name="testTitle" value="${testTitle.testTitle}">
-			<input type="date" name="createdate" value="${testTitle.createdate}">
-			<button type="submit">제목 수정</button>
-		</form>
 		<form method="post" action="${pageContext.request.contextPath}/teacher/test/addQuestion" id="examplForm">
 			<input type="hidden" name="testNo" value="${testNo}">
 			<input type="hidden" name="questionCount" value="${testTitle.questionCount}">

@@ -1,6 +1,5 @@
 package goodee.gdj58.online.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +51,8 @@ public class TestController {
 		return "teacher/test/testOne";
 	}
 	
+	// 문제 등록
+	
 	@GetMapping("/teacher/test/addQuestion")
 	public String insertQuestion(Model model, @RequestParam(value="testNo") int testNo) {
 		// 시험 제목만 출력
@@ -85,14 +86,13 @@ public class TestController {
 			log.debug("\u001B[31m" + questionNo + "<-- questionNo");
 			
 			if(questionNo != 0) {
-				Example[] example = new Example[4 * questionCount];
+				Example[] example = new Example[4];
 				for(int i = 0; i<example.length; i++) {
-					
 					example[i] = new Example();
 					example[i].setQuestionNo(questionNo);
-					example[i].setExampleIdx(exampleIdx[i]);
-					example[i].setExampleTitle(exampleTitle[i]);
-					example[i].setAnswer(answer[i]);
+					example[i].setExampleIdx(exampleIdx[i+(j*4)]);
+					example[i].setExampleTitle(exampleTitle[i+(j*4)]);
+					example[i].setAnswer(answer[i+(j*4)]);
 					
 					
 					exampleService.insertExample(questionNo, example[i]);
@@ -117,7 +117,7 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 
-	// 강사용 : 문제 생성된 시험 리스트
+	// 강사용 시험 리스트
 	@GetMapping("/teacher/test/testList")
 	public String testListByTeacher(Model model
 								, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
@@ -129,8 +129,11 @@ public class TestController {
 		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
 		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
-		// 리스트
-		List<Test> list = testService.selectTestListByTeacher(currentPage, rowPerPage, searchWord);
+		// 문제가 생성된 시험 리스트
+		List<Test> haveQueList = testService.selectTestHaveQuestionList(currentPage, rowPerPage, searchWord);
+		
+		// 문제가 생성되지 않은 시험 리스트
+		List<Test> notQuelist = testService.selectTestNotQuestionList();
 		
 		// 데이터 총 개수
 		int countTest = testService.countTest(searchWord);
@@ -152,7 +155,8 @@ public class TestController {
 		boolean next = (currentPage == lastPage) ? false : true;
 		
 		// model 저장 (session과 같은 역할)
-		model.addAttribute("list", list);
+		model.addAttribute("haveQueList", haveQueList);
+		model.addAttribute("notQuelist", notQuelist);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("lastPage", lastPage);

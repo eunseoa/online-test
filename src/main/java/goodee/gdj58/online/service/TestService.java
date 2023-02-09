@@ -43,8 +43,13 @@ public class TestService {
 		return testMapper.countTest(searchWord);
 	}
 	
-	// 강사용 시험 리스트
-	public List<Test> selectTestListByTeacher(int currentPage, int rowPerPage, String searchWord) {
+	// 강사용 : 문제가 생성되지 않은 시험 리스트
+	public List<Test> selectTestNotQuestionList() {
+		return testMapper.selectTestNotQuestionList();
+	}
+	
+	// 강사용 : 문제 생성된 시험 리스트
+	public List<Test> selectTestHaveQuestionList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage - 1) * rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);

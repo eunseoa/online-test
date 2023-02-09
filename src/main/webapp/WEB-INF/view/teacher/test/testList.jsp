@@ -11,16 +11,17 @@
 			<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
 		</div>
 		<a href="${pageContext.request.contextPath}/teacher/test/addTest">시험 등록</a>
+		<!-- 문제가 생성된 시험 리스트 -->
 		<h2>Test List</h2>
 		<table border="1">
 			<tr>
 				<th>시험 제목</th>
 				<th>시험 일자</th>
 			</tr>
-			<c:forEach var="t" items="${list}">
+			<c:forEach var="h" items="${haveQueList}">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/teacher/test/addQuestion?testNo=${t.testNo}">${t.testTitle}</a></td>
-					<td>${t.createdate}</td>
+					<td><a href="${pageContext.request.contextPath}/teacher/test/testOne?testNo=${h.testNo}">${h.testTitle}</a></td>
+					<td>${h.createdate}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -28,6 +29,21 @@
 			<input type="text" name="searchWord" value="${searchWord}">
 			<button type="submit">시험 검색</button>
 		</form>
+		<br>
+		<!-- 문제가 생성되지 않은 문제 리스트 -->
+		<h2>문제 입력이 필요합니다</h2>
+		<table border="1">
+			<tr>
+				<th>시험 제목</th>
+				<th>시험 일자</th>
+			</tr>
+			<c:forEach var="n" items="${notQuelist}">
+				<tr>
+					<td><a href="${pageContext.request.contextPath}/teacher/test/addQuestion?testNo=${n.testNo}">${n.testTitle}</a></td>
+					<td>${n.createdate}</td>
+				</tr>
+			</c:forEach>
+		</table>
 		<div>
 			<!-- 현재 페이지에 따른 처음 버튼 활성화 -->
 			<c:if test="${currentPage == 1}">

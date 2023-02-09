@@ -12,20 +12,17 @@
 	<!-- 시험지 상세 보기 -->
 	<select id="testOne" resultType="map" parameterType="int">
 		SELECT
-			t.test_no testNo
-			, q.question_no questionNo
+			q.question_no questionNo
 			, q.question_idx questionIdx
 			, q.question_title questionTitle
 			, e.example_no exampleNo
 			, e.example_idx exampleIdx
 			, e.example_title exampleTitle
 			, e.answer answer
-			, t.createdate createdate
-		FROM test t INNER JOIN question q
-		ON t.test_no = q.test_no
-		INNER JOIN example e
+		FROM question q INNER JOIN example e
 		ON q.question_no = e.question_no
-		WHERE t.test_no = #{testNo}
+		WHERE q.test_no = #{testNo}
+		ORDER BY q.question_no ASC
 	</select>
 	
 	<!-- 시험 제목, 문제 개수 출력 -->
@@ -62,19 +59,36 @@
 		</if>
 	</select>
 	
+	<!-- 강사용 :  질문이 생성되지 않은 시험 리스트 -->
+	<select id="selectTestNotQuestionList" resultType="map">
+		SELECT
+			t.test_no testNo
+			, t.test_title testTitle
+			, t.createdate
+		FROM test t LEFT JOIN question q
+		ON t.test_no = q.test_no
+		LEFT  JOIN example e
+		ON q.question_no = e.question_no
+		WHERE q.question_no IS NULL AND e.example_no IS NULL
+		GROUP BY t.test_no
+	</select>
+	
 	<!-- 강사용 : 질문이 생성된 시험 리스트 -->
 	<select id="selectTestHaveQuestionList" resultType="map" parameterType="map">
 		SELECT
-			test_no testNo
-			, test_title testTitle
-			, createdate
-		FROM test
+			t.test_no testNo
+			, t.test_title testTitle
+			, t.createdate
+		FROM test t INNER JOIN question q
+		ON t.test_no = q.test_no
+		INNER JOIN example e
+		ON q.question_no = e.question_no
 		<if test="searchWord != null || searchWord != ''">
 			<where>
 				test_title LIKE CONCAT('%', #{searchWord}, '%')
 			</where>
 		</if>
-		ORDER BY createdate DESC
+		GROUP BY t.createdate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 </mapper>
