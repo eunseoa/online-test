@@ -9,7 +9,7 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
-	int updateTest(Test test); // 시험 수정
+	int updateTest(Test test); // 시험 정보 수정
 	List<Map<String, Object>> testOne(int testNo); // 시험지 상세 보기
 	int insertTest(Test test); // 시험 제목 등록
 	int countTest(String searchWord); // 시험 데이터 총 개수

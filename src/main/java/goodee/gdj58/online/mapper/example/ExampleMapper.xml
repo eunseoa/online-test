@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.example.ExampleMapper">
 
+	<!-- 보기 수정 -->
+	<update id="updateExample">
+		UPDATE example
+		SET example_title = #{exampleTitle}, answer = #{answer}
+		WHERE question_no = #{questionNo} AND example_no = #{exampleNo}
+	</update>
+
 	<!-- 문제당 보기 등록 -->
 	<insert id="insertExample" parameterType="map">
 		INSERT INTO example(

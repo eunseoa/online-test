@@ -25,6 +25,15 @@ public class TestController {
 	@Autowired QuestionService questionService;
 	@Autowired ExampleService exampleService;
 	
+	// 문제 수정
+	@PostMapping("/teacher/test/modifyQuestion")
+	public String modifyQuestion(Question question) {
+		
+		questionService.updateQuestion(question);
+		
+		return "redirect:/teacher/test/testOne?testNo=" + question.getTestNo();
+	}
+	
 	// 시험 정보 수정
 	@PostMapping("/teacher/test/modifyTestTitle")
 	public String updateTest(Test test) {

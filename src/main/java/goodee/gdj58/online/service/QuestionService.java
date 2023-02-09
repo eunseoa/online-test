@@ -18,6 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 public class QuestionService {
 	@Autowired QuestionMapper questionMapper;
 	
+	// 문제 수정
+	public int updateQuestion(Question question) {
+		return questionMapper.updateQuestion(question);
+	}
+	
+	// 시험지 등록 후 문제 등록
 	public int insertQuestion(int testNo, Question question) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("testNo", testNo);

@@ -15,6 +15,12 @@ import goodee.gdj58.online.vo.Example;
 public class ExampleService {
 	@Autowired ExampleMapper exampleMapper;
 	
+	// 보기 수정
+	public int updateExample(Example example) {
+		return exampleMapper.updateExample(example);
+	}
+	
+	// 문제당 보기 등록
 	public int insertExample(int questionNo, Example example) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("questionNo", questionNo);
