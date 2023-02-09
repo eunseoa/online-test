@@ -1,9 +1,9 @@
 package goodee.gdj58.online.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +71,7 @@ public class TestController {
 							, @RequestParam(value="questionScore") int questionScore
 							, @RequestParam(value="exampleIdx") int[] exampleIdx
 							, @RequestParam(value="exampleTitle") String[] exampleTitle
-							, @RequestParam(value="answer") int answer) {
+							, @RequestParam(value="answer") String[] answer) {
 		
 		Question[] question = new Question[questionCount];
 		for(int j = 0; j<question.length; j++) {
@@ -85,16 +85,15 @@ public class TestController {
 			log.debug("\u001B[31m" + questionNo + "<-- questionNo");
 			
 			if(questionNo != 0) {
-				Example[] example = new Example[4];
+				Example[] example = new Example[4 * questionCount];
 				for(int i = 0; i<example.length; i++) {
+					
 					example[i] = new Example();
 					example[i].setQuestionNo(questionNo);
 					example[i].setExampleIdx(exampleIdx[i]);
 					example[i].setExampleTitle(exampleTitle[i]);
-					example[i].setAnswer("오답");
-					if(answer == i+1) {
-						example[i].setAnswer("정답");
-					}
+					example[i].setAnswer(answer[i]);
+					
 					
 					exampleService.insertExample(questionNo, example[i]);
 				}

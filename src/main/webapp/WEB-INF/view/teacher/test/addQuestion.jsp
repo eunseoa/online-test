@@ -14,25 +14,7 @@
 			<input type="date" name="createdate" value="${testTitle.createdate}">
 			<button type="submit">제목 수정</button>
 		</form>
-		<div>
-			<table>
-				<c:forEach var="t" items="${testOne}">
-					<c:if test="${t.exampleIdx == 1}">
-						<tr>
-							<td>문제</td>
-							<td>${t.questionTitle}</td>
-						</tr>
-					</c:if>
-					<tr>
-						<td>보기</td>
-						<td>
-							${t.exampleTitle} (${t.answer})
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		<form method="post" action="${pageContext.request.contextPath}/teacher/test/addQuestion">
+		<form method="post" action="${pageContext.request.contextPath}/teacher/test/addQuestion" id="examplForm">
 			<input type="hidden" name="testNo" value="${testNo}">
 			<input type="hidden" name="questionCount" value="${testTitle.questionCount}">
 			<c:set var="questionScore" value="${100 / testTitle.questionCount}"></c:set>
@@ -55,23 +37,39 @@
 							<td>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="1" readonly>
-									보기 : <input type="text" name="exampleTitle">
-									<input type="radio" name="answer" value="1">
+									보기 : <input type="text" name="exampleTitle" value="${q}-1">
+									정답 여부 : 
+									<select name="answer">
+										<option value="오답" selected>오답</option>
+										<option value="정답">정답</option>
+									</select>
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="2" readonly>
-									보기 : <input type="text" name="exampleTitle">
-									<input type="radio" name="answer" value="2">
+									보기 : <input type="text" name="exampleTitle" value="${q}-2">
+									정답 여부 :
+									<select name="answer">
+										<option value="오답" selected>오답</option>
+										<option value="정답">정답</option>
+									</select>
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="3" readonly>
-									보기 : <input type="text" name="exampleTitle">
-									<input type="radio" name="answer" value="3">
+									보기 : <input type="text" name="exampleTitle" value="${q}-3">
+									정답 여부 :
+									<select name="answer">
+										<option value="오답" selected>오답</option>
+										<option value="정답">정답</option>
+									</select>
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="4" readonly>
-									보기 : <input type="text" name="exampleTitle">
-									<input type="radio" name="answer" value="4">
+									보기 : <input type="text" name="exampleTitle" value="${q}-4">
+									정답 여부 :
+									<select name="answer">
+										<option value="오답" selected>오답</option>
+										<option value="정답">정답</option>
+									</select>
 								</div>
 							</td>
 						</tr>
