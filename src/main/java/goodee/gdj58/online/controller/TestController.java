@@ -14,6 +14,7 @@ import goodee.gdj58.online.service.ExampleService;
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TestService;
 import goodee.gdj58.online.vo.Example;
+import goodee.gdj58.online.vo.Paper;
 import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Test;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,77 @@ public class TestController {
 	@Autowired TestService testService; 
 	@Autowired QuestionService questionService;
 	@Autowired ExampleService exampleService;
+	
+	// 답안지 제출
+	@GetMapping("/student/test/addPaper")
+	public String addPaper(Model model, int testNo) {
+		
+		List<Map<String, Object>> testList = testService.testOne(testNo);
+		
+		model.addAttribute("testList", testList);
+		
+		return "student/test/addPaper";
+	}
+	
+	@PostMapping("/student/test/addPaper")
+	public String addPaper(Paper paper
+						, @RequestParam(value="questionNo") int[] questionNo
+						, @RequestParam(value="answer") int[] answer) {
+		Paper paper1[] = new Paper[5];
+		for(int i= 0; i<paper1.length; i++) {
+			log.debug("\u001B[31m" + questionNo[i] + "<-- questionNo");
+			log.debug("\u001B[31m" + answer[i] + "<-- answer");
+		}
+		
+		return "student/test/studentTestList";
+	}
+	
+	// 학생용 시험 리스트
+	@GetMapping("/student/test/studentTestList")
+	public String testList(Model model
+						, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+						, @RequestParam(value="rowPerpage", defaultValue = "10") int rowPerPage
+						, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
+		// 디버깅
+		log.debug("\u001B[31m" + currentPage + "<-- currentPage");
+		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
+		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
+		
+		// 리스트
+		List<Map<String, Object>> testList = testService.selectTestListByStudent(currentPage, rowPerPage, searchWord);
+		
+		// 데이터 총 개수
+		int countTest = testService.testCnt(searchWord);
+		
+		// 페이징
+		int lastPage = countTest / rowPerPage;
+		if(countTest % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		int showPage = 10;
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		boolean prev = (currentPage == 1) ? false : true;
+		boolean next = (currentPage == lastPage) ? false : true;
+		
+		// model 저장 (session과 같은 역할)
+		model.addAttribute("testList", testList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
+		
+		return "student/test/studentTestList";
+	}
 	
 	// 문제 등록되기 전 시험 삭제
 	@GetMapping("/teacher/test/removeTest")
@@ -113,13 +185,13 @@ public class TestController {
 	
 	@PostMapping("/teacher/test/addQuestion")
 	public String insertQuestion(@RequestParam(value="testNo") int testNo
-							, @RequestParam(value="questionCount") int questionCount
-							, @RequestParam(value="questionIdx") int[] questionIdx
-							, @RequestParam(value="questionTitle") String[] questionTitle
-							, @RequestParam(value="questionScore") int questionScore
-							, @RequestParam(value="exampleIdx") int[] exampleIdx
-							, @RequestParam(value="exampleTitle") String[] exampleTitle
-							, @RequestParam(value="answer") String[] answer) {
+								, @RequestParam(value="questionCount") int questionCount
+								, @RequestParam(value="questionIdx") int[] questionIdx
+								, @RequestParam(value="questionTitle") String[] questionTitle
+								, @RequestParam(value="questionScore") int questionScore
+								, @RequestParam(value="exampleIdx") int[] exampleIdx
+								, @RequestParam(value="exampleTitle") String[] exampleTitle
+								, @RequestParam(value="answer") String[] answer) {
 		
 		Question[] question = new Question[questionCount];
 		for(int j = 0; j<question.length; j++) {
@@ -146,7 +218,7 @@ public class TestController {
 				}
 			}
 		}
-		return "redirect:/teacher/test/testList";
+		return "redirect:/teacher/test/haveQueTestList";
 	}
 	
 	// 시험 등록

@@ -27,6 +27,9 @@
 		</c:if>
 		<!-- 로그인 상태 -->
 		<c:if test="${loginStudent != null}">
+			<div>
+				<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
+			</div>
 			${loginStudent.studentName}님, 반값습니다
 			<a href="${pageContext.request.contextPath}/student/logout">로그아웃</a>
 			<div>

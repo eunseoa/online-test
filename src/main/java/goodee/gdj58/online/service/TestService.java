@@ -18,6 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 학생용 시험 리스트 데이터 총 개수
+	public int testCnt(String searchWord) {
+		return testMapper.testCnt(searchWord);
+	}
+	
+	// 학생용 시험 리스트
+	public List<Map<String, Object>> selectTestListByStudent(int currentPage, int rowPerPage, String searchWord) {
+		int beginRow = (currentPage - 1) * rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
+		return testMapper.selectTestListByStudent(paramMap);
+	}
+	
 	// 문제 등록되기 전 시험 삭제
 	public int deleteTest(int testNo) {
 		return testMapper.deleteTest(testNo);

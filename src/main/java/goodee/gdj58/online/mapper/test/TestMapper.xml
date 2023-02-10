@@ -2,6 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.test.TestMapper">
 
+	<!-- 학생용 시험 리스트 데이터 총 개수 -->
+	<select id="testCnt" resultType="int" parameterType="string">
+		SELECT
+			COUNT(t.testNo)
+		FROM (SELECT
+					t.test_no testNo
+				FROM test t INNER JOIN question q
+				ON t.test_no = q.test_no
+				LEFT JOIN paper p
+				ON q.question_no = p.question_no
+				<if test="searchWord != null || searchWord != ''">
+					<where>
+						test_title LIKE CONCAT('%', #{searchWord}, '%')
+					</where>
+				</if>
+				GROUP BY t.test_no) t
+	</select>
+
+	<!-- 학생용 시험 리스트 -->
+	<select id="selectTestListByStudent" resultType="map" parameterType="map">
+		SELECT
+			t.test_no testNo
+			, t.test_title testTitle
+			, t.createdate createdate
+			, IFNULL(p.paper_no, 0) paperNo
+		FROM test t INNER JOIN question q
+		ON t.test_no = q.test_no
+		LEFT JOIN paper p
+		ON q.question_no = p.question_no
+		<if test="searchWord != null || searchWord != ''">
+			<where>
+				test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</where>
+		</if>
+		GROUP BY t.test_no
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+
 	<!-- 문제 등록되기 전 시험 삭제 -->
 	<delete id="deleteTest" parameterType="int">
 		DELETE FROM test WHERE test_no = #{testNo}

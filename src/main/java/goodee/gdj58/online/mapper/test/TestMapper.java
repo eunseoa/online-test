@@ -9,6 +9,8 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
+	int testCnt(String searchWord); // 학생용 시험 리스트 데이터 총 개수
+	List<Map<String, Object>> selectTestListByStudent(Map<String, Object> map); // 학생용 시험 리스트
 	int deleteTest(int testNo); // 문제 등록되기 전 시험 삭제
 	int updateTest(Test test); // 시험 정보 수정
 	List<Map<String, Object>> testOne(int testNo); // 시험지 상세 보기

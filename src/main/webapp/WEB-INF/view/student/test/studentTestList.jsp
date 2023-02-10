@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -10,20 +10,25 @@
 		<div>
 			<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
 		</div>
-		<a href="${pageContext.request.contextPath}/teacher/test/addTest">시험 등록</a>
-		<!-- 문제가 생성되지 않은 문제 리스트 -->
-		<h2>문제 입력이 필요합니다</h2>
+		<h2>시험 리스트</h2>
 		<table border="1">
 			<tr>
 				<th>시험 제목</th>
 				<th>시험 일자</th>
 				<th></th>
 			</tr>
-			<c:forEach var="n" items="${notQueList}">
+			<c:forEach var="t" items="${testList}">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/teacher/test/addQuestion?testNo=${n.testNo}">${n.testTitle}</a></td>
-					<td>${n.createdate}</td>
-					<td><a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${n.testNo}">삭제</a></td>
+					<td>${t.testTitle}</td>
+					<td>${t.createdate}</td>
+					<td>
+						<c:if test="${t.paperNo == 0}">
+							<a href="${pageContext.request.contextPath}/student/test/addPaper?testNo=${t.testNo}">시험보기</a>
+						</c:if>
+						<c:if test="${t.paperNo != 0}">
+							<a>결과 보기</a>
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
