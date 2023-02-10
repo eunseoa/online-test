@@ -25,6 +25,15 @@ public class TestController {
 	@Autowired QuestionService questionService;
 	@Autowired ExampleService exampleService;
 	
+	// 문제 등록되기 전 시험 삭제
+	@GetMapping("/teacher/test/removeTest")
+	public String removeTest(int testNo) {
+		
+		testService.deleteTest(testNo);
+		
+		return "redirect:/teacher/test/notQueList";
+	}
+	
 	// 문제 수정
 	@GetMapping("/teacher/test/modifyQuestion")
 	public String modifyQuestion(Model model, int questionNo) {
@@ -152,7 +161,7 @@ public class TestController {
 		
 		testService.insertTest(test);
 		
-		return "redirect:/teacher/test/testList";
+		return "redirect:/teacher/test/notQueTestList";
 	}
 	
 	// 강사용 문제가 생성되지않은 시험 리스트
@@ -168,7 +177,7 @@ public class TestController {
 		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
 		// 리스트
-		List<Test> haveQueList = testService.selectNotQuestionTestList();
+		List<Test> notQueList = testService.selectNotQuestionTestList(currentPage, rowPerPage, searchWord);
 		
 		// 데이터 총 개수
 		int countTest = testService.notQueCnt(searchWord);
@@ -190,7 +199,7 @@ public class TestController {
 		boolean next = (currentPage == lastPage) ? false : true;
 		
 		// model 저장 (session과 같은 역할)
-		model.addAttribute("haveQueList", haveQueList);
+		model.addAttribute("notQueList", notQueList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("lastPage", lastPage);

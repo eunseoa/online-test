@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -17,11 +17,13 @@
 			<tr>
 				<th>시험 제목</th>
 				<th>시험 일자</th>
+				<th></th>
 			</tr>
-			<c:forEach var="n" items="${notQuelist}">
+			<c:forEach var="n" items="${notQueList}">
 				<tr>
 					<td><a href="${pageContext.request.contextPath}/teacher/test/addQuestion?testNo=${n.testNo}">${n.testTitle}</a></td>
 					<td>${n.createdate}</td>
+					<td><a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${n.testNo}">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</table>

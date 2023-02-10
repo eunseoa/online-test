@@ -18,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 문제 등록되기 전 시험 삭제
+	public int deleteTest(int testNo) {
+		return testMapper.deleteTest(testNo);
+	}
+	
 	// 시험 정보 수정
 	public int updateTest(Test test) {
 		return testMapper.updateTest(test);
@@ -49,8 +54,14 @@ public class TestService {
 	}
 	
 	// 강사용 : 문제가 생성되지 않은 시험 리스트
-	public List<Test> selectNotQuestionTestList() {
-		return testMapper.selectNotQuestionTestList();
+	public List<Test> selectNotQuestionTestList(int currentPage, int rowPerPage, String searchWord) {
+		int beginRow = (currentPage - 1) * rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		
+		return testMapper.selectNotQuestionTestList(paramMap);
 	}
 	
 	// 강사용 : 문제 생성된 시험 리스트
