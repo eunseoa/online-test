@@ -2,8 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="goodee.gdj58.online.mapper.question.QuestionMapper">
+	<!-- 질문 수정폼에 띄울 문제 내용 -->
+	<select id="questionOne" resultType="map" parameterType="int">
+		SELECT
+			q.test_no testNo
+			, q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+			, q.question_score questionScore
+			, e.example_no exampleNo
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+			, e.answer answer
+		FROM question q INNER JOIN example e
+		ON q.question_no = e.question_no
+		WHERE q.question_no = #{questionNo}
+	</select>
+	
 	<!-- 문제 수정 -->
-	<update id="updateQuestion">
+	<update id="updateQuestion" parameterType="goodee.gdj58.online.vo.Question">
 		UPDATE question 
 		SET question_title = #{questionTitle}
 		WHERE test_no = #{testNo}  AND question_no = #{questionNo}

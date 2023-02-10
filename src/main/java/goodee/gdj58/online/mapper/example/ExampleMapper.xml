@@ -3,7 +3,7 @@
 <mapper namespace="goodee.gdj58.online.mapper.example.ExampleMapper">
 
 	<!-- 보기 수정 -->
-	<update id="updateExample">
+	<update id="updateExample" parameterType="map">
 		UPDATE example
 		SET example_title = #{exampleTitle}, answer = #{answer}
 		WHERE question_no = #{questionNo} AND example_no = #{exampleNo}

@@ -18,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class QuestionService {
 	@Autowired QuestionMapper questionMapper;
 	
+	// 질문 수정폼에 띄울 문제 내용
+	public List<Map<String, Object>> questionOne(int questionNo) { 
+		return questionMapper.questionOne(questionNo);
+	}
+	
 	// 문제 수정
 	public int updateQuestion(Question question) {
 		return questionMapper.updateQuestion(question);
