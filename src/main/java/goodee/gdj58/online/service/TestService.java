@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
-	// 시험지 수정
+	// 시험 정보 수정
 	public int updateTest(Test test) {
 		return testMapper.updateTest(test);
 	}
@@ -28,34 +28,39 @@ public class TestService {
 		return testMapper.testOne(testNo);
 	}
 	
-	// 시험 제목만 출력
-	public Test selectTestTitle(int testNo) {
-		return testMapper.selectTestTitle(testNo);
-	}
-	
 	// 시험 등록
 	public int insertTest(Test test) {
 		return testMapper.insertTest(test);
 	}
 	
-	// 시험 데이터 총 개수
-	public int countTest(String searchWord) {
-		return testMapper.countTest(searchWord);
+	// 시험 제목만 출력
+	public Test selectTestTitle(int testNo) {
+		return testMapper.selectTestTitle(testNo);
+	}
+	
+	// 문제가 생성되지 않은 시험 데이터 총 개수
+	public int notQueCnt(String searchWord) {
+		return testMapper.haveQueCnt(searchWord);
+	}
+	
+	// 문제가 생성된 시험 데이터 총 개수
+	public int haveQueCnt(String searchWord) {
+		return testMapper.haveQueCnt(searchWord);
 	}
 	
 	// 강사용 : 문제가 생성되지 않은 시험 리스트
-	public List<Test> selectTestNotQuestionList() {
-		return testMapper.selectTestNotQuestionList();
+	public List<Test> selectNotQuestionTestList() {
+		return testMapper.selectNotQuestionTestList();
 	}
 	
 	// 강사용 : 문제 생성된 시험 리스트
-	public List<Test> selectTestHaveQuestionList(int currentPage, int rowPerPage, String searchWord) {
+	public List<Test> selectHaveQuestionTestList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage - 1) * rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("searchWord", searchWord);
 		
-		return testMapper.selectTestHaveQuestionList(paramMap);
+		return testMapper.selectHaveQuestionTestList(paramMap);
 	}
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.test.TestMapper">
 
-	<!-- 시험 수정 -->
+	<!-- 시험 정보 수정 -->
 	<update id="updateTest" parameterType="goodee.gdj58.online.vo.Test">
 		UPDATE test 
 		SET test_title = #{testTitle}, createdate = #{createdate}
@@ -24,17 +24,6 @@
 		WHERE q.test_no = #{testNo}
 		ORDER BY q.question_no ASC
 	</select>
-	
-	<!-- 시험 제목, 문제 개수 출력 -->
-	<select id="selectTestTitle" resultType="goodee.gdj58.online.vo.Test" parameterType="int">
-		SELECT
-			test_no testNo
-			, test_title testTitle
-			, question_count questionCount
-			, createdate
-		FROM test
-		WHERE test_no = #{testNo}
-	</select>
 
 	<!-- 시험 등록 -->
 	<insert id="insertTest" parameterType="goodee.gdj58.online.vo.Test" >
@@ -48,19 +37,57 @@
 			, #{createdate}
 		)
 	</insert>
+	
+	<!-- 시험 제목, 문제 개수 출력 -->
+	<select id="selectTestTitle" resultType="goodee.gdj58.online.vo.Test" parameterType="int">
+		SELECT
+			test_no testNo
+			, test_title testTitle
+			, question_count questionCount
+			, createdate
+		FROM test
+		WHERE test_no = #{testNo}
+	</select>
+	
+	<!-- 질문이 생성되지 않은 시험 리스트 총 개수 -->
+	<select id="notQueCnt" resultType="int" parameterType="string">
+		SELECT
+			COUNT(t.testNo)
+		FROM (SELECT
+					t.test_no testNo
+				FROM test t LEFT JOIN question q
+				ON t.test_no = q.test_no
+				LEFT  JOIN example e
+				ON q.question_no = e.question_no
+				WHERE q.question_no IS NULL AND e.example_no IS NULL
+				<if test="searchWord != null || searchWord != ''">
+					<where>
+						test_title LIKE CONCAT('%', #{searchWord}, '%')
+					</where>
+				</if>
+				GROUP BY t.test_no) t
+	</select>
 
-	<!-- 관리자 데이터 총 개수 -->
-	<select id="countTest" resultType="int" parameterType="string">
-		SELECT COUNT(*) FROM test
-		<if test="searchWord != null || searchWord != ''">
-			<where>
-				test_title LIKE CONCAT('%', #{searchWord}, '%')
-			</where>
-		</if>
+	<!-- 질문이 생성된 시험 리스트 총 개수 -->
+	<select id="haveQueCnt" resultType="int" parameterType="string">
+		SELECT
+			COUNT(t.testNo)
+		FROM (SELECT
+					t.test_no testNo
+				FROM test t INNER JOIN question q
+				ON t.test_no = q.test_no
+				INNER JOIN example e
+				ON q.question_no = e.question_no
+				<if test="searchWord != null || searchWord != ''">
+					<where>
+						test_title LIKE CONCAT('%', #{searchWord}, '%')
+					</where>
+				</if>
+				GROUP BY t.test_no ) t
 	</select>
 	
 	<!-- 강사용 :  질문이 생성되지 않은 시험 리스트 -->
-	<select id="selectTestNotQuestionList" resultType="map">
+	<select id="selectNotQuestionTestList" resultType="map">
 		SELECT
 			t.test_no testNo
 			, t.test_title testTitle
@@ -70,11 +97,15 @@
 		LEFT  JOIN example e
 		ON q.question_no = e.question_no
 		WHERE q.question_no IS NULL AND e.example_no IS NULL
+		<if test="searchWord != null || searchWord != ''">
+			AND test_title LIKE CONCAT('%', #{searchWord}, '%')
+		</if>
 		GROUP BY t.test_no
+		ORDER BY t.createdate DESC
 	</select>
 	
 	<!-- 강사용 : 질문이 생성된 시험 리스트 -->
-	<select id="selectTestHaveQuestionList" resultType="map" parameterType="map">
+	<select id="selectHaveQuestionTestList" resultType="map" parameterType="map">
 		SELECT
 			t.test_no testNo
 			, t.test_title testTitle
@@ -88,7 +119,8 @@
 				test_title LIKE CONCAT('%', #{searchWord}, '%')
 			</where>
 		</if>
-		GROUP BY t.createdate DESC
+		GROUP BY t.test_no
+		ORDER BY t.createdate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 </mapper>

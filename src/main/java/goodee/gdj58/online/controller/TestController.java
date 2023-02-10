@@ -26,10 +26,39 @@ public class TestController {
 	@Autowired ExampleService exampleService;
 	
 	// 문제 수정
-	@PostMapping("/teacher/test/modifyQuestion")
-	public String modifyQuestion(Question question) {
+	@GetMapping("/teacher/test/modifyQuestion")
+	public String modifyQuestion(Model model, int questionNo) {
 		
-		questionService.updateQuestion(question);
+		List<Map<String, Object>> questionOne = questionService.questionOne(questionNo);
+		
+		model.addAttribute("questionOne", questionOne);
+		
+		return "teacher/test/modifyQuestion";
+	}
+	
+	@PostMapping("/teacher/test/modifyQuestion")
+	public String modifyQuestion(Question question
+								, @RequestParam(value="questionNo") int[] questionNo
+								, @RequestParam(value="exampleNo") int[] exampleNo
+								, @RequestParam(value="exampleTitle") String[] exampleTitle
+								, @RequestParam(value="answer") String[] answer) {
+		
+		int row = questionService.updateQuestion(question);
+		if(row != 0) {
+			Example[] example = new Example[4];
+			for(int i = 0; i<example.length; i++) {
+				log.debug("\u001B[31m" + exampleTitle[i] + "<-- exampleTitle");
+				log.debug("\u001B[31m" + answer[i] + "<-- answer");
+					
+				example[i] = new Example();
+				example[i].setQuestionNo(questionNo[i]);
+				example[i].setExampleNo(exampleNo[i]);
+				example[i].setExampleTitle(exampleTitle[i]);
+				example[i].setAnswer(answer[i]);
+				
+				exampleService.updateExample(example[i]);
+			}
+		}
 		
 		return "redirect:/teacher/test/testOne?testNo=" + question.getTestNo();
 	}
@@ -125,10 +154,10 @@ public class TestController {
 		
 		return "redirect:/teacher/test/testList";
 	}
-
-	// 강사용 시험 리스트
-	@GetMapping("/teacher/test/testList")
-	public String testListByTeacher(Model model
+	
+	// 강사용 문제가 생성되지않은 시험 리스트
+	@GetMapping("/teacher/test/notQueTestList")
+	public String notQueTestList(Model model
 								, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 								, @RequestParam(value="rowPerpage", defaultValue = "10") int rowPerPage
 								, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
@@ -138,14 +167,11 @@ public class TestController {
 		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
 		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
 		
-		// 문제가 생성된 시험 리스트
-		List<Test> haveQueList = testService.selectTestHaveQuestionList(currentPage, rowPerPage, searchWord);
-		
-		// 문제가 생성되지 않은 시험 리스트
-		List<Test> notQuelist = testService.selectTestNotQuestionList();
+		// 리스트
+		List<Test> haveQueList = testService.selectNotQuestionTestList();
 		
 		// 데이터 총 개수
-		int countTest = testService.countTest(searchWord);
+		int countTest = testService.notQueCnt(searchWord);
 		
 		// 페이징
 		int lastPage = countTest / rowPerPage;
@@ -165,7 +191,6 @@ public class TestController {
 		
 		// model 저장 (session과 같은 역할)
 		model.addAttribute("haveQueList", haveQueList);
-		model.addAttribute("notQuelist", notQuelist);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("lastPage", lastPage);
@@ -175,6 +200,54 @@ public class TestController {
 		model.addAttribute("prev", prev);
 		model.addAttribute("next", next);
 		
-		return "teacher/test/testList";
+		return "teacher/test/notQueTestList";
+	}
+
+	// 강사용 문제가 생성된 시험 리스트
+	@GetMapping("/teacher/test/haveQueTestList")
+	public String haveQueTestList(Model model
+								, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+								, @RequestParam(value="rowPerpage", defaultValue = "10") int rowPerPage
+								, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
+		
+		// 디버깅
+		log.debug("\u001B[31m" + currentPage + "<-- currentPage");
+		log.debug("\u001B[31m" + rowPerPage + "<-- rowPerPage");
+		log.debug("\u001B[31m" + searchWord + "<-- searchWord");
+		
+		// 리스트
+		List<Test> haveQueList = testService.selectHaveQuestionTestList(currentPage, rowPerPage, searchWord);
+		
+		// 데이터 총 개수
+		int countTest = testService.haveQueCnt(searchWord);
+		
+		// 페이징
+		int lastPage = countTest / rowPerPage;
+		if(countTest % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		int showPage = 10;
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		boolean prev = (currentPage == 1) ? false : true;
+		boolean next = (currentPage == lastPage) ? false : true;
+		
+		// model 저장 (session과 같은 역할)
+		model.addAttribute("haveQueList", haveQueList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
+		
+		return "teacher/test/haveQueTestList";
 	}
 }
