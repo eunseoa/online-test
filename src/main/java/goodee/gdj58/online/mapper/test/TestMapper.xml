@@ -58,6 +58,7 @@
 			q.question_no questionNo
 			, q.question_idx questionIdx
 			, q.question_title questionTitle
+			, q.question_score questionScore
 			, e.example_no exampleNo
 			, e.example_idx exampleIdx
 			, e.example_title exampleTitle

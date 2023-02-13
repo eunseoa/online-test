@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.ExampleService;
+import goodee.gdj58.online.service.PaperService;
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TestService;
 import goodee.gdj58.online.vo.Example;
@@ -25,26 +26,52 @@ public class TestController {
 	@Autowired TestService testService; 
 	@Autowired QuestionService questionService;
 	@Autowired ExampleService exampleService;
+	@Autowired PaperService paperService;
 	
 	// 답안지 제출
 	@GetMapping("/student/test/addPaper")
 	public String addPaper(Model model, int testNo) {
 		
+		// 시험 제목, 날짜, 문제개수
+		Test testTitle = testService.selectTestTitle(testNo);
+		
+		// 시험 문제
 		List<Map<String, Object>> testList = testService.testOne(testNo);
 		
+		model.addAttribute("testTitle", testTitle);
 		model.addAttribute("testList", testList);
 		
 		return "student/test/addPaper";
 	}
 	
 	@PostMapping("/student/test/addPaper")
-	public String addPaper(Paper paper
+	public String addPaper(@RequestParam(value="studentNo") int studentNo
 						, @RequestParam(value="questionNo") int[] questionNo
-						, @RequestParam(value="answer") int[] answer) {
-		Paper paper1[] = new Paper[5];
-		for(int i= 0; i<paper1.length; i++) {
+						, @RequestParam(value="answer") int[] answer
+						, @RequestParam(value="questionCount") int questionCount
+						, @RequestParam(value="questionScore") int questionScore) {
+		Paper paper[] = new Paper[questionCount];
+		for(int i= 0; i<paper.length; i++) {
 			log.debug("\u001B[31m" + questionNo[i] + "<-- questionNo");
 			log.debug("\u001B[31m" + answer[i] + "<-- answer");
+			
+			paper[i] = new Paper();
+			paper[i].setStudentNo(studentNo);
+			paper[i].setQuestionNo(questionNo[i]);
+			paper[i].setAnswer(answer[i]);
+			
+			int questionAnswer = exampleService.questionAnswer(questionNo[i]);
+			log.debug("\u001B[31m" + questionAnswer + "<-- questionAnswer");
+			if(questionAnswer == answer[i]) {
+				paper[i].setAnswerOx("정답");
+				paper[i].setAnswerScore(questionScore);
+			} else {
+				paper[i].setAnswerOx("오답");
+				paper[i].setAnswerScore(0);
+			}
+			
+			
+			paperService.insertPaper(paper[i]);
 		}
 		
 		return "student/test/studentTestList";

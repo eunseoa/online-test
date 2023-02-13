@@ -8,4 +8,6 @@ public class Paper {
 	private int studentNo;
 	private int questionNo;
 	private int answer;
+	private String answerOx;
+	private int answerScore;
 }

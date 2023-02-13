@@ -15,6 +15,11 @@ import goodee.gdj58.online.vo.Example;
 public class ExampleService {
 	@Autowired ExampleMapper exampleMapper;
 	
+	// 문제의 정답 exampleIdx
+	public int questionAnswer(int questionNo) {
+		return exampleMapper.questionAnswer(questionNo);
+	}
+	
 	// 보기 수정
 	public int updateExample(Example example) {
 		return exampleMapper.updateExample(example);
