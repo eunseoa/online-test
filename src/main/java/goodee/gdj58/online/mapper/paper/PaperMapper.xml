@@ -4,13 +4,15 @@
 	
 	<insert id="insertPaper" parameterType="goodee.gdj58.online.vo.Paper">
 		INSERT INTO paper (
-			student_no
+			test_no
+			, student_no
 			, question_no
 			, answer
 			, answer_ox
 			, answer_score
 		) VALUES (
-			#{studentNo}
+			#{testNo}
+			, #{studentNo}
 			, #{questionNo}
 			, #{answer}
 			, #{answerOx}

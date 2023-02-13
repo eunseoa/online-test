@@ -31,6 +31,7 @@
 			<div>${loginStudent.studentNo}</div>
 			<input type="hidden" name="questionCount" value="${testTitle.questionCount}">
 			<input type="hidden" name="studentNo" value="${loginStudent.studentNo}">
+			<input type="hidden" name="testNo" value="${testTitle.testNo}">
 			<table>
 				<c:forEach var="t" items="${testList}">
 					<div>
@@ -38,7 +39,7 @@
 							<tr>
 								<th>
 									${t.questionIdx}.&nbsp;${t.questionTitle}
-									<input type="hidden" name="questionNo" value="${t.questionNo}">
+									<input type="text" name="questionNo" value="${t.questionNo}">
 									<input type="hidden" name="questionScore" value="${t.questionScore}">
 									<input type="hidden" id="answer${t.questionIdx}" name="answer" value="0">
 								</th>

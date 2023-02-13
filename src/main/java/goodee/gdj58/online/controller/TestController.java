@@ -45,7 +45,8 @@ public class TestController {
 	}
 	
 	@PostMapping("/student/test/addPaper")
-	public String addPaper(@RequestParam(value="studentNo") int studentNo
+	public String addPaper(@RequestParam(value="testNo") int testNo
+						, @RequestParam(value="studentNo") int studentNo
 						, @RequestParam(value="questionNo") int[] questionNo
 						, @RequestParam(value="answer") int[] answer
 						, @RequestParam(value="questionCount") int questionCount
@@ -56,6 +57,7 @@ public class TestController {
 			log.debug("\u001B[31m" + answer[i] + "<-- answer");
 			
 			paper[i] = new Paper();
+			paper[i].setTestNo(testNo);
 			paper[i].setStudentNo(studentNo);
 			paper[i].setQuestionNo(questionNo[i]);
 			paper[i].setAnswer(answer[i]);
@@ -218,7 +220,7 @@ public class TestController {
 								, @RequestParam(value="questionScore") int questionScore
 								, @RequestParam(value="exampleIdx") int[] exampleIdx
 								, @RequestParam(value="exampleTitle") String[] exampleTitle
-								, @RequestParam(value="answer") String[] answer) {
+								, @RequestParam(value="answer") int[] answer) {
 		
 		Question[] question = new Question[questionCount];
 		for(int j = 0; j<question.length; j++) {
@@ -238,7 +240,10 @@ public class TestController {
 					example[i].setQuestionNo(questionNo);
 					example[i].setExampleIdx(exampleIdx[i+(j*4)]);
 					example[i].setExampleTitle(exampleTitle[i+(j*4)]);
-					example[i].setAnswer(answer[i+(j*4)]);
+					example[i].setAnswer("오답");
+					if(answer[j] == (i+1)) {
+						example[i].setAnswer("정답");
+					}
 					
 					
 					exampleService.insertExample(questionNo, example[i]);

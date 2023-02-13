@@ -5,6 +5,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<c:forEach var="q" begin="1" end="${testTitle.questionCount}" step="1">
+			<script>
+				$(document).ready(function() {
+					$('#queBtn').click(function() {
+						if($("input[name='answer${q}']:checked")) {
+							var answer = $("input[name='answer${q}']:checked").val();
+							console.log(answer);
+							$("#answer${q}").val(answer);
+						}
+						$('#examplForm').submit();
+					});
+				});
+			</script>
+		</c:forEach>
 	</head>
 	<body>
 		<h3>${testTitle.testTitle}</h3>
@@ -24,7 +39,7 @@
 						</tr>
 						<tr>
 							<td>문제 이름</td>
-							<td><input type="text" name="questionTitle" value="test"></td>
+							<td><input type="text" name="questionTitle" value="test"><input type="hidden" id="answer${q}" name="answer"></td>
 						</tr>
 						<tr>
 							<td>보기</td>
@@ -32,45 +47,29 @@
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="1" readonly>
 									보기 : <input type="text" name="exampleTitle" value="${q}-1">
-									정답 여부 : 
-									<select name="answer">
-										<option value="오답" selected>오답</option>
-										<option value="정답">정답</option>
-									</select>
+									<input type="radio" name="answer${q}" value="1">
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="2" readonly>
 									보기 : <input type="text" name="exampleTitle" value="${q}-2">
-									정답 여부 :
-									<select name="answer">
-										<option value="오답" selected>오답</option>
-										<option value="정답">정답</option>
-									</select>
+									<input type="radio" name="answer${q}" value="2">
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="3" readonly>
 									보기 : <input type="text" name="exampleTitle" value="${q}-3">
-									정답 여부 :
-									<select name="answer">
-										<option value="오답" selected>오답</option>
-										<option value="정답">정답</option>
-									</select>
+									<input type="radio" name="answer${q}" value="3">
 								</div>
 								<div>
 									번호 : <input type="text" name="exampleIdx" value="4" readonly>
 									보기 : <input type="text" name="exampleTitle" value="${q}-4">
-									정답 여부 :
-									<select name="answer">
-										<option value="오답" selected>오답</option>
-										<option value="정답">정답</option>
-									</select>
+									<input type="radio" name="answer${q}" value="4">
 								</div>
 							</td>
 						</tr>
 					</table>
 				</div>
 			</c:forEach>
-			<button type="submit">질문 등록</button>
+			<button type="button" id="queBtn">질문 등록</button>
 		</form>
 	</body>
 </html>
