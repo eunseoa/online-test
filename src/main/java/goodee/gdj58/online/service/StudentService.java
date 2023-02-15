@@ -16,6 +16,18 @@ import goodee.gdj58.online.vo.Student;
 public class StudentService {
 	@Autowired StudentMapper studentMapper;
 	
+	// 아이디 중복 검사
+	public String getStudentId(String studentId) {
+		
+		String resultStr = "NO";
+		
+		if(studentMapper.selectStudentId(studentId) == null) {
+			resultStr = "YES";
+		}
+		
+		return resultStr;
+	}
+	
 	// 학생 비밀번호 수정
 	public int updateStudentPw(int studentNo, String oldPw, String newPw) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

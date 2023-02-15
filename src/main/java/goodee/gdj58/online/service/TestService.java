@@ -18,6 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 학생용 답안지 제출한 시험지 리스트
+	public List<Map<String, Object>> selectTestScoreList(int studentNo) {
+		return testMapper.selectTestScoreList(studentNo);
+	}
+	
+	
 	// 학생용 시험 리스트 데이터 총 개수
 	public int testCnt(String searchWord) {
 		return testMapper.testCnt(searchWord);

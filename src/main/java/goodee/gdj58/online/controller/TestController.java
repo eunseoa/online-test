@@ -28,9 +28,34 @@ public class TestController {
 	@Autowired ExampleService exampleService;
 	@Autowired PaperService paperService;
 	
+	// 답안지 상세보기
+	@GetMapping("/student/test/paperOne")
+	public String paperOne(Model model, Paper paper) {
+		
+		List<Map<String, Object>> paperOne = paperService.paperOne(paper);
+		
+		model.addAttribute("paperOne", paperOne);
+		
+		return "student/test/paperOne";
+	}
+	
+	// 학생용 답안지 제출한 시험지 리스트
+	@GetMapping("/student/test/testScoreList")
+	public String testScoreList(Model model
+							, @RequestParam(value="studentNo") int studentNo) {
+		
+		List<Map<String, Object>> testList = testService.selectTestScoreList(studentNo);
+		
+		model.addAttribute("testList", testList);
+		
+		return "student/test/testScoreList";
+		
+	}
+	
 	// 답안지 제출
 	@GetMapping("/student/test/addPaper")
-	public String addPaper(Model model, int testNo) {
+	public String addPaper(Model model
+						, @RequestParam(value="testNo") int testNo) {
 		
 		// 시험 제목, 날짜, 문제개수
 		Test testTitle = testService.selectTestTitle(testNo);
@@ -128,7 +153,7 @@ public class TestController {
 	
 	// 문제 등록되기 전 시험 삭제
 	@GetMapping("/teacher/test/removeTest")
-	public String removeTest(int testNo) {
+	public String removeTest(@RequestParam(value="testNo") int testNo) {
 		
 		testService.deleteTest(testNo);
 		
@@ -137,7 +162,8 @@ public class TestController {
 	
 	// 문제 수정
 	@GetMapping("/teacher/test/modifyQuestion")
-	public String modifyQuestion(Model model, int questionNo) {
+	public String modifyQuestion(Model model
+							, @RequestParam(value="questionNo") int questionNo) {
 		
 		List<Map<String, Object>> questionOne = questionService.questionOne(questionNo);
 		

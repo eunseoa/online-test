@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Student;
 
 @Mapper
 public interface StudentMapper {
+	public String selectStudentId(String studentId); // 아이디 중복 검사 : 사용가능한 아이디면 null, 불가하면 아이디 리턴
 	int updateStudentPw(Map<String, Object> paramMap); // 학생 비밀번호 수정
 	Student login(Student student); // 학생 로그인
 	int deleteStudent(int studentNo); // 학생 삭제

@@ -1,15 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div>
-	<a href="${pageContext.request.contextPath}/employee/empList">사원관리</a>
-	<!-- 등록시 ID체크(employee + student + teacher) -->
-	
-	<a href="${pageContext.request.contextPath}/employee/teacher/teacherList">강사관리</a>
-	<!-- 강사목록, 강사삭제 -->
-	
-	<a href="${pageContext.request.contextPath}/employee/student/studentList">학생관리</a>
-	<!-- 학생목록, 학생삭제 -->
-	
-	<a href="${pageContext.request.contextPath}/employee/modifyEmpPw">비밀번호 수정</a>
-	
-	<a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a>
-</div>
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+	<div class="app-brand demo">
+		<span class="app-brand-text demo menu-text fw-bolder ms-2">Online-Test</span>
+	</div>
+	<div class="menu-inner-shadow"></div>
+	<ul class="menu-inner py-1">
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/employee/empList" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-user"></i>
+				<span data-i18n="Analytics">사원관리</span>
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/employee/teacher/teacherList" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-glasses"></i>
+				<span data-i18n="Analytics">강사관리</span>
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/employee/student/studentList" class="menu-link">
+				<i class="menu-icon tf-icons bx bxs-graduation"></i>
+				<span data-i18n="Analytics">학생관리</span>
+			</a>
+		</li>
+		
+		<li class="menu-header small text-uppercase">
+			<span class="menu-header-text">Log</span>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/employee/modifyEmpPw" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-cog"></i>
+				<span data-i18n="Analytics">비밀번호 수정</span>
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/employee/logout" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-user-minus"></i>
+				<span data-i18n="Analytics">로그아웃</span>
+			</a>
+		</li>
+		
+		<li class="menu-header small text-uppercase">
+			<span class="menu-header-text">기능</span>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/loginTeacher" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-plus"></i>
+				<span data-i18n="Analytics">강사 로그인</span>
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="${pageContext.request.contextPath}/loginStudent" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-plus"></i>
+				<span data-i18n="Analytics">학생 로그인</span>
+			</a>
+		</li>
+	</ul>
+</aside>

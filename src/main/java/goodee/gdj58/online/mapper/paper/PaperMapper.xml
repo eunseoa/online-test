@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.paper.PaperMapper">
+
+	<!-- 답안지 상세보기 -->
+	<select id="paperOne" resultType="map" parameterType="goodee.gdj58.online.vo.Paper">
+		SELECT
+		 t.test_title testTitle
+		 , t.createdate createdate
+		 , q.question_idx questionIdx
+		 , q.question_title questionTitle
+		 , e.example_idx exampleIdx
+		 , e.example_title exampleTitle
+		 , e.answer exampleAnswer
+		 , p.answer paperAnswer
+		 , p.answer_ox answerOx
+		FROM test t INNER JOIN question q
+		ON t.test_no = q.test_no
+		INNER JOIN example e
+		ON q.question_no = e.question_no
+		INNER JOIN paper p
+		ON e.question_no = p.question_no
+		WHERE p.test_no = #{testNo} AND p.student_no = #{studentNo}
+	</select>
 	
 	<insert id="insertPaper" parameterType="goodee.gdj58.online.vo.Paper">
 		INSERT INTO paper (

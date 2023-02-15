@@ -26,7 +26,7 @@
 							<a href="${pageContext.request.contextPath}/student/test/addPaper?testNo=${t.testNo}">시험보기</a>
 						</c:if>
 						<c:if test="${t.paperNo != 0}">
-							<a>결과 보기</a>
+							<a href="${pageContext.request.contextPath}/student/test/paperOne?paperNo=${t.paperNo}">결과보기</a>
 						</c:if>
 					</td>
 				</tr>
