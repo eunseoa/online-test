@@ -122,9 +122,9 @@
 												</div>
 											</div>
 											<form method="get" action="${pageContext.request.contextPath}/employee/empList">
-												<div class="input-group mb-3 justify-content-center" style="width: 500px;">
+												<div class="input-group mb-3 justify-content-center" style="width: 500px; margin: auto;">
 													<input type="text" name="searchWord" value="${searchWord}" class="form-control" placeholder="Search.." aria-label="Recipient's username" aria-describedby="button-addon2">
-													<button class="btn btn-outline-primary" type="button" id="button-addon2"><i class="bx bx-search fs-4 lh-0"></i></button>
+													<button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="bx bx-search fs-4 lh-0"></i></button>
 												</div>
 											</form>
 										</div>

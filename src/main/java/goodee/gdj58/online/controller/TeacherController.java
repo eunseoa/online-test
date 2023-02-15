@@ -28,12 +28,12 @@ public class TeacherController {
 	
 	// 강사 비밀번호 수정
 	// 수정 form으로 
-	@GetMapping("/teacher/removeTeacher")
+	@GetMapping("/teacher/modifyTeacherPw")
 	public String modifyTeacher() {
 		return "teacher/modifyTeacherPw";
 	}
 	
-	@PostMapping("/teacher/removeTeacher")
+	@PostMapping("/teacher/modifyTeacherPw")
 	public String modifyTeacher(HttpSession session
 							, @RequestParam(value="newPw") String newPw
 							, @RequestParam(value="oldPw") String oldPw) {
@@ -54,7 +54,7 @@ public class TeacherController {
 		Teacher resultTeacher = teacherService.login(teacher);
 		session.setAttribute("loginTeacher", resultTeacher);
 		
-		return "redirect:/loginTeacher";
+		return "redirect:/teacher/test/haveQueTestList";
 	}
 	
 	// 로그아웃
