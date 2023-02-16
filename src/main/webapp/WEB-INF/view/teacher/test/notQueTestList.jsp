@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<title>미완성 시험 리스트</title>
 		<meta name="description" content="" />
-		<link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+		<link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
@@ -36,7 +36,45 @@
 										</div>
 										<div class="card-body">
 											<div align="right">
-												<a href="${pageContext.request.contextPath}/teacher/test/addTest" class="btn rounded-pill me-2 btn-primary" style="color: white;"><i class="menu-icon tf-icons bx bx-plus"></i>ADD</a>
+												<button type="button" class="btn rounded-pill me-2 btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal"><i class="menu-icon tf-icons bx bx-plus"></i>ADD</button>
+												<div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+													<div class="modal-dialog">
+														<form class="modal-content" method="post" action="${pageContext.request.contextPath}/teacher/test/addTest">
+															<div class="modal-header">
+																<h5 class="modal-title" id="backDropModalTitle">Test</h5>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col mb-3">
+																		<label for="nameBackdrop" class="form-label">Test Title</label>
+																		<input type="text" id="nameBackdrop" name="testTitle" class="form-control">
+																	</div>
+																</div>
+																<div class="row g-2">
+																	<div class="col mb-0">
+																		<label for="emailBackdrop" class="form-label">Question</label>
+																		<select name="questionCount" class="form-select">
+																			<option value="5">5문제</option>
+																			<option value="10">10문제</option>
+																			<option value="15">15문제</option>
+																			<option value="20">20문제</option>
+																			<option value="25">25문제</option>
+																		</select>
+																	</div>
+																	<div class="col mb-0">
+																		<label for="dobBackdrop" class="form-label">DOB</label>
+																		<input type="date" id="dobBackdrop" name="createdate" class="form-control">
+																	</div>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+																<button type="submit" class="btn btn-primary">Save</button>
+															</div>
+														</form>
+													</div>
+												</div>
 											</div>
 											<div class="table-responsive text-nowrap">
 												<table class="table text-center">
@@ -138,14 +176,15 @@
 			</div>
 		</div>
 		<div class="layout-overlay layout-menu-toggle"></div>
-		<script src="../assets/vendor/libs/jquery/jquery.js"></script>
-		<script src="../assets/vendor/libs/popper/popper.js"></script>
-		<script src="../assets/vendor/js/bootstrap.js"></script>
-		<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-		<script src="../assets/vendor/js/menu.js"></script>
-		<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
-		<script src="../assets/js/main.js"></script>
-		<script src="../assets/js/dashboards-analytics.js"></script>
+		<script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+		<script src="../../assets/vendor/libs/popper/popper.js"></script>
+		<script src="../../assets/vendor/js/bootstrap.js"></script>
+		<script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+		<script src="../../assets/vendor/js/menu.js"></script>
+		<script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+		<script src="../../assets/js/main.js"></script>
+		<script src="../../assets/js/ui-modals.js"></script>
+		<script src="../../assets/js/dashboards-analytics.js"></script>
 		<script async defer src="https://buttons.github.io/buttons.js"></script>
 	</body>
 </html>

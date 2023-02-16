@@ -280,12 +280,6 @@ public class TestController {
 	}
 	
 	// 시험 등록
-	@GetMapping("/teacher/test/addTest")
-	public String insertTest() {
-		return "teacher/test/addTest";
-	}
-	
-	// 시험 등록
 	@PostMapping("/teacher/test/addTest")
 	public String insertTest(Test test, Question question) {
 		
