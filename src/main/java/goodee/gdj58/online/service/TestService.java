@@ -18,9 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 	@Autowired TestMapper testMapper;
 	
+	// 학생용 답안지 제출한 시험지 데이터 총 개수
+	public int testByPaperCnt(int studentNo, String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("studentNo", studentNo);
+		paramMap.put("searchWord", searchWord);
+		
+		return testMapper.testByPaperCnt(paramMap);
+	}
+	
 	// 학생용 답안지 제출한 시험지 리스트
-	public List<Map<String, Object>> selectTestScoreList(int studentNo) {
-		return testMapper.selectTestScoreList(studentNo);
+	public List<Map<String, Object>> selectTestScoreList(int studentNo, String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("studentNo", studentNo);
+		paramMap.put("searchWord", searchWord);
+		
+		return testMapper.selectTestScoreList(paramMap);
 	}
 	
 	

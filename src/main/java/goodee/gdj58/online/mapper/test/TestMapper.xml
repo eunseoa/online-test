@@ -2,8 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.test.TestMapper">
 
+	<!-- 학생용 답안지 제출한 시험지 데이터 총 개수 -->
+	<select id="testByPaperCnt" resultType="int" parameterType="map">
+		SELECT
+			COUNT(t.testNo)
+		FROM (SELECT
+			t.test_no testNo
+			FROM paper p INNER JOIN test t
+			ON p.test_no = t.test_no
+			WHERE student_no = #{studentNo}
+			<if test="searchWord != null || searchWord != ''">
+				AND t.test_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			GROUP BY t.test_no) t
+	</select>
+	
 	<!-- 학생용 답안지 제출한 시험지 리스트 -->
-	<select id="selectTestScoreList" resultType="map" parameterType="int">
+	<select id="selectTestScoreList" resultType="map" parameterType="map">
 		SELECT
 			t.test_no testNo
 			, t.test_title testTitle
@@ -12,6 +27,9 @@
 		FROM paper p INNER JOIN test t
 		ON p.test_no = t.test_no
 		WHERE student_no = #{studentNo}
+		<if test="searchWord != null || searchWord != ''">
+			AND t.test_title LIKE CONCAT('%', #{searchWord}, '%')
+		</if>
 	</select>
 
 	<!-- 학생용 시험 리스트 데이터 총 개수 -->

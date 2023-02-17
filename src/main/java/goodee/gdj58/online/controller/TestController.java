@@ -39,14 +39,49 @@ public class TestController {
 		return "student/test/paperOne";
 	}
 	
+	// 학생용 답안지 제출한 시험지 데이터 개수
+	
 	// 학생용 답안지 제출한 시험지 리스트
 	@GetMapping("/student/test/testScoreList")
 	public String testScoreList(Model model
-							, @RequestParam(value="studentNo") int studentNo) {
+							, @RequestParam(value="studentNo") int studentNo
+							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+							, @RequestParam(value="rowPerpage", defaultValue = "10") int rowPerPage
+							, @RequestParam(value="searchWord", defaultValue = "") String searchWord) {
 		
-		List<Map<String, Object>> testList = testService.selectTestScoreList(studentNo);
+		// 리스트
+		List<Map<String, Object>> testList = testService.selectTestScoreList(studentNo, searchWord);
 		
+		// 데이터 개수
+		int cnt = testService.testByPaperCnt(studentNo, searchWord);
+		
+		// 페이징
+		int lastPage = cnt / rowPerPage;
+		if(cnt % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		int showPage = 10;
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1;
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		boolean prev = (currentPage == 1) ? false : true;
+		boolean next = (currentPage == lastPage) ? false : true;
+		
+		// model 저장 (session과 같은 역할)
 		model.addAttribute("testList", testList);
+		model.addAttribute("studentNo", studentNo);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("showPage", showPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
 		
 		return "student/test/testScoreList";
 		
@@ -177,20 +212,23 @@ public class TestController {
 								, @RequestParam(value="questionNo") int[] questionNo
 								, @RequestParam(value="exampleNo") int[] exampleNo
 								, @RequestParam(value="exampleTitle") String[] exampleTitle
-								, @RequestParam(value="answer") String[] answer) {
+								, @RequestParam(value="answer") int answer) {
 		
 		int row = questionService.updateQuestion(question);
 		if(row != 0) {
 			Example[] example = new Example[4];
 			for(int i = 0; i<example.length; i++) {
 				log.debug("\u001B[31m" + exampleTitle[i] + "<-- exampleTitle");
-				log.debug("\u001B[31m" + answer[i] + "<-- answer");
+				log.debug("\u001B[31m" + answer + "<-- answer");
 					
 				example[i] = new Example();
 				example[i].setQuestionNo(questionNo[i]);
 				example[i].setExampleNo(exampleNo[i]);
 				example[i].setExampleTitle(exampleTitle[i]);
-				example[i].setAnswer(answer[i]);
+				example[i].setAnswer("오답");
+				if(answer == (i+1)) {
+					example[i].setAnswer("정답");
+				}
 				
 				exampleService.updateExample(example[i]);
 			}

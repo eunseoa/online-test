@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Paper;
 
 @Mapper
 public interface PaperMapper {
+	Map<String, Object> paperTitle(int paperNo); // 답안지 상세보기용 시험 제목
 	List<Map<String, Object>> paperOne(Paper paper); // 답안지 상세보기
 	int insertPaper(Paper paper); // 답안지 제출
 }

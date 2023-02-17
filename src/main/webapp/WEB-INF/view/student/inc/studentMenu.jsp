@@ -5,7 +5,7 @@
 	</div>
 	<div class="menu-inner-shadow"></div>
 	<ul class="menu-inner py-1">
-		<li class="menu-item active">
+		<li class="menu-item">
 			<a href="${pageContext.request.contextPath}/student/test/studentTestList" class="menu-link">
 				<i class="menu-icon tf-icons bx bx-user"></i>
 				<span data-i18n="Analytics">시험 리스트</span>

@@ -66,8 +66,12 @@
 													<c:forEach var="t" items="${testOne}">
 														<c:if test="${t.exampleIdx == 1}">
 															<tr>
-																<th><h5><strong>${t.questionIdx}.&nbsp;${t.questionTitle}</strong></h5></th>
-																<th><a href="${pageContext.request.contextPath}/teacher/test/modifyQuestion?questionNo=${t.questionNo}">문제 수정</a></th>
+																<th>
+																	<h5><strong>${t.questionIdx}.&nbsp;${t.questionTitle}</strong>&nbsp;&nbsp;&nbsp;[${t.questionScore}점]</h5>
+																</th>
+																<th>
+																	<a href="${pageContext.request.contextPath}/teacher/test/modifyQuestion?questionNo=${t.questionNo}">문제 수정</a>
+																</th>
 															</tr>
 														</c:if>
 														<c:if test="${t.exampleIdx == 1}">

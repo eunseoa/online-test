@@ -11,7 +11,7 @@ import goodee.gdj58.online.service.StudentService;
 public class StudentRestController {
 	@Autowired StudentService studentService;
 	
-	@GetMapping("/idck")
+	@GetMapping("/employee/student/idck")
 	public String idck(@RequestParam(value="studentId") String studentId) {
 		return studentService.getStudentId(studentId);
 	}

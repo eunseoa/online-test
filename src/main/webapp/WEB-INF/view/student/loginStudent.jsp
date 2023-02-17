@@ -63,7 +63,7 @@
 				<div class="misc-wrapper">
 					<h2 class="mb-2 mx-2">${loginStudent.studentName}님, 반갑습니다</h2>
 					<p class="mb-4 mx-2">&nbsp;</p>
-					<a href="${pageContext.request.contextPath}/student/test/testList" class="btn btn-primary">Home</a>
+					<a href="${pageContext.request.contextPath}/student/test/studentTestList" class="btn btn-primary">Home</a>
 					<div class="mt-4">
 						<img src="./assets/img/illustrations/girl-doing-yoga-light.png"
 							alt="girl-doing-yoga-light" width="500" class="img-fluid"

@@ -53,7 +53,7 @@ public class StudentController {
 		Student resultStudent = studentService.login(student);
 		session.setAttribute("loginStudent", resultStudent);
 		
-		return "redirect:/loginStudent";
+		return "redirect:/student/test/studentTestList";
 	}
 	
 	// 로그아웃
