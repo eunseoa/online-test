@@ -135,9 +135,9 @@ public class EmployeeController {
 		}
 		
 		// 이전 버튼 활성하
-		boolean prev = (currentPage == 1) ? false : true;
+		boolean prev = (startPage == 1) ? false : true;
 		// 다음 버튼 활성화
-		boolean next = (currentPage == lastPage) ? false : true;
+		boolean next = (endPage == lastPage) ? false : true;
 		
 		// request.setAttribute("list", list);
 		model.addAttribute("list", list);

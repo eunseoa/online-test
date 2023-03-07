@@ -3,6 +3,15 @@
 <mapper namespace="goodee.gdj58.online.mapper.paper.PaperMapper">
 
 	<!-- 답안지 상세보기용 시험 제목 -->
+	<select id="paperTitle" resultType="map" parameterType="int">
+		SELECT
+			t.test_title testTitle
+			, t.createdate createdate
+		FROM paper p INNER JOIN test t
+		ON p.test_no = t.test_no
+		WHERE p.test_no = #{testNo}
+		GROUP BY p.test_no
+	</select>
 
 	<!-- 답안지 상세보기 -->
 	<select id="paperOne" resultType="map" parameterType="goodee.gdj58.online.vo.Paper">
@@ -23,7 +32,7 @@
 		ON q.question_no = e.question_no
 		INNER JOIN paper p
 		ON e.question_no = p.question_no
-		WHERE p.paper_no = #{paperNo} AND p.student_no = #{studentNo}
+		WHERE p.test_no = #{testNo} AND p.student_no = #{studentNo}
 	</select>
 	
 	<insert id="insertPaper" parameterType="goodee.gdj58.online.vo.Paper">

@@ -141,8 +141,8 @@ public class TeacherController {
 		
 		log.debug("\u001B[31m" + lastPage + "<-- lastPage");
 		
-		boolean prev = (currentPage == 1 || startPage == 1) ? false : true;
-		boolean next = (currentPage == lastPage || endPage == lastPage) ? false : true;
+		boolean prev = (startPage == 1) ? false : true;
+		boolean next = (endPage == lastPage) ? false : true;
 		
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);

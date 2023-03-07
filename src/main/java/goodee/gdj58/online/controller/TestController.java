@@ -32,8 +32,12 @@ public class TestController {
 	@GetMapping("/student/test/paperOne")
 	public String paperOne(Model model, Paper paper) {
 		
+		log.debug("\u001B[31m" + paper.getTestNo());
+		
+		Map<String, Object> paperTitle = paperService.paperTitle(paper.getTestNo());
 		List<Map<String, Object>> paperOne = paperService.paperOne(paper);
 		
+		model.addAttribute("paperTitle", paperTitle);
 		model.addAttribute("paperOne", paperOne);
 		
 		return "student/test/paperOne";
@@ -68,8 +72,8 @@ public class TestController {
 			endPage = lastPage;
 		}
 		
-		boolean prev = (currentPage == 1) ? false : true;
-		boolean next = (currentPage == lastPage) ? false : true;
+		boolean prev = (startPage == 1) ? false : true;
+		boolean next = (endPage == lastPage) ? false : true;
 		
 		// model 저장 (session과 같은 역할)
 		model.addAttribute("testList", testList);
@@ -169,8 +173,8 @@ public class TestController {
 			endPage = lastPage;
 		}
 		
-		boolean prev = (currentPage == 1) ? false : true;
-		boolean next = (currentPage == lastPage) ? false : true;
+		boolean prev = (startPage == 1) ? false : true;
+		boolean next = (endPage == lastPage) ? false : true;
 		
 		// model 저장 (session과 같은 역할)
 		model.addAttribute("testList", testList);
@@ -357,8 +361,8 @@ public class TestController {
 			endPage = lastPage;
 		}
 		
-		boolean prev = (currentPage == 1) ? false : true;
-		boolean next = (currentPage == lastPage) ? false : true;
+		boolean prev = (startPage == 1) ? false : true;
+		boolean next = (endPage == lastPage) ? false : true;
 		
 		// model 저장 (session과 같은 역할)
 		model.addAttribute("notQueList", notQueList);

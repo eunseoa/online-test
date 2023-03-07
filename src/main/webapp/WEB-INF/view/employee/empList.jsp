@@ -82,7 +82,7 @@
 															</c:if>
 															<c:if test="${prev == true}">
 																<li class="page-item prev">
-																	<a class="page-link" href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage - 1}&searchWord=${searchWord}"><i class="tf-icon bx bx-chevron-left"></i></a>
+																	<a class="page-link" href="${pageContext.request.contextPath}/employee/empList?currentPage=${startPage - 1}&searchWord=${searchWord}"><i class="tf-icon bx bx-chevron-left"></i></a>
 																</li>
 															</c:if>
 															
@@ -100,7 +100,7 @@
 															</c:if>
 															<c:if test="${next == true}">
 																<li class="page-item next">
-																	<a class="page-link" href="${pageContext.request.contextPath}/employee/empList?currentPage=${currentPage + 1}&searchWord=${searchWord}">
+																	<a class="page-link" href="${pageContext.request.contextPath}/employee/empList?currentPage=${endPage + 1}&searchWord=${searchWord}">
 																		<i class="tf-icon bx bx-chevron-right"></i>
 																	</a>
 																</li>		

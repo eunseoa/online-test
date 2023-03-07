@@ -14,6 +14,12 @@ import goodee.gdj58.online.vo.Paper;
 @Transactional
 public class PaperService {
 	@Autowired PaperMapper paperMapper;
+	
+	// 답안지 상세보기용 시험 제목
+	public Map<String, Object> paperTitle(int testNo) {
+		return paperMapper.paperTitle(testNo);
+	}
+	
 	// 답안지 상세보기
 	public List<Map<String, Object>> paperOne(Paper paper) {
 		return paperMapper.paperOne(paper);
