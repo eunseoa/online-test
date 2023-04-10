@@ -46,6 +46,7 @@ public class StudentLoginFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		Filter.super.destroy();
+		log.info("destroy");
+		//Filter.super.destroy();
 	}
 }
