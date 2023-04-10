@@ -43,7 +43,7 @@ public class StudentController {
 	}
 	
 	// 학생 로그인
-	@GetMapping("/loginStudent")
+	@GetMapping("/")
 	public String login() {
 		return "student/loginStudent";
 	}
