@@ -2,11 +2,7 @@ package goodee.gdj58.online.filter;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j // log객체를 주입해줌 \ static Log log = new Log();
 @WebFilter("/employee/*") // /employee로 시작하는 모든 것을 가로챔
 public class EmpLoginFilter implements Filter {
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		log.info("init");
+	}
+
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -42,5 +44,9 @@ public class EmpLoginFilter implements Filter {
 		// controller 실행 후
 		
 	}
-	
+
+	@Override
+	public void destroy() {
+		log.info("destroy");
+	}
 }
