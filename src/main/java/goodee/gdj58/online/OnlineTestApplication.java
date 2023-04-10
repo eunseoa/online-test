@@ -10,11 +10,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @ServletComponentScan
 public class OnlineTestApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources((OnlineTestApplication.class));
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineTestApplication.class, args);
 	}
