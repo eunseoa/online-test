@@ -43,5 +43,9 @@ public class StudentLoginFilter implements Filter {
 		// controller 실행 후
 		
 	}
-	
+
+	@Override
+	public void destroy() {
+		Filter.super.destroy();
+	}
 }
